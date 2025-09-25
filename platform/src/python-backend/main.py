@@ -32,6 +32,7 @@ app.add_middleware(
         "http://127.0.0.1:3001",
         "https://platform-rmt75jcth-chaitanya-varmas-projects.vercel.app",
         "https://platform-pdpd0vrac-chaitanya-varmas-projects.vercel.app",
+        "https://platform-2bxwi8qzb-chaitanya-varmas-projects.vercel.app",
         "https://*.vercel.app"
     ],
     allow_credentials=True,
