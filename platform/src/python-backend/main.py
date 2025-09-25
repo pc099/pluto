@@ -33,6 +33,7 @@ app.add_middleware(
         "https://platform-rmt75jcth-chaitanya-varmas-projects.vercel.app",
         "https://platform-pdpd0vrac-chaitanya-varmas-projects.vercel.app",
         "https://platform-2bxwi8qzb-chaitanya-varmas-projects.vercel.app",
+        "https://platform-bice-kappa.vercel.app",
         "https://*.vercel.app"
     ],
     allow_credentials=True,
