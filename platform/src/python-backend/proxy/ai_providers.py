@@ -226,7 +226,7 @@ class AIProxyService:
                     'analysis_id': f"qa_{log_entry['request_id']}",
                     'quality_score': log_entry['quality_analysis'].get('quality_score', 0),
                     'confidence_score': log_entry['quality_analysis'].get('confidence_score', 0),
-                    'hallucination_risk': log_entry['quality_analysis'].get('hallucination_risk', 'unknown'),
+                    'hallucination_risk': log_entry['quality_analysis'].get('hallucination_risk', 0),  # Convert to numeric
                     'has_hallucination': log_entry['quality_analysis'].get('has_hallucination', False),
                     'security_threats': log_entry['quality_analysis'].get('security_threats', []),
                     'compliance_violations': log_entry['quality_analysis'].get('compliance_violations', []),

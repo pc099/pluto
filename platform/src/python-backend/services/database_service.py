@@ -190,6 +190,45 @@ class DatabaseService:
             print(f"Error logging quality analysis: {str(e)}")
             return False
 
+    async def store_quality_analysis(self, quality_data: Dict[str, Any]) -> bool:
+        """Store quality analysis data in a simplified format"""
+        try:
+            # Convert the quality data to match our database schema
+            analysis_data = {
+                'analysis_id': quality_data.get('analysis_id'),
+                'timestamp': quality_data.get('created_at'),
+                'model': quality_data.get('model', 'unknown'),
+                'provider': quality_data.get('provider', 'unknown'),
+                'overall_quality_score': float(quality_data.get('quality_score', 0)),
+                'risk_level': 'UNKNOWN',
+                'analysis_duration_ms': 0,
+                
+                # Convert scores to integers (multiply by 100 to store as percentages)
+                'hallucination_risk': int(float(quality_data.get('hallucination_risk', 0)) * 100) if isinstance(quality_data.get('hallucination_risk'), (int, float)) else 0,
+                'confidence_score': int(float(quality_data.get('confidence_score', 0)) * 100),
+                'factual_consistency': 0,
+                'toxicity_score': 0,
+                'bias_score': 0,
+                
+                # Security analysis
+                'security_score': 100,  # Default to safe
+                'prompt_injection_detected': False,
+                'data_extraction_attempt': False,
+                'malicious_request': False,
+                'detected_security_patterns': quality_data.get('security_threats', []),
+                'security_risk_indicators': [],
+                
+                # Results
+                'recommendations': [],
+                'alerts': []
+            }
+            
+            response = self.supabase.table('ai_quality_analysis').insert(analysis_data).execute()
+            return response.data is not None
+        except Exception as e:
+            print(f"Error storing quality analysis: {str(e)}")
+            return False
+
     def get_quality_statistics(self, days: int = 7, user_id: str = None, team_id: str = None, provider: str = None) -> Dict[str, Any]:
         """Get quality analysis statistics"""
         try:
