@@ -162,17 +162,17 @@ class DatabaseService:
                 'provider': quality_analysis.get('provider'),
                 'overall_quality_score': quality_analysis.get('overall_quality_score', 0),
                 'risk_level': quality_analysis.get('risk_level', 'UNKNOWN'),
-                'analysis_duration_ms': quality_analysis.get('analysis_duration_ms', 0),
+                'analysis_duration_ms': int(quality_analysis.get('analysis_duration_ms', 0)),
                 
-                # Detailed scores
-                'hallucination_risk': quality_analysis.get('detailed_scores', {}).get('hallucination_risk', 0),
-                'confidence_score': quality_analysis.get('detailed_scores', {}).get('confidence_score', 0),
-                'factual_consistency': quality_analysis.get('detailed_scores', {}).get('factual_consistency', 0),
-                'toxicity_score': quality_analysis.get('detailed_scores', {}).get('toxicity_score', 0),
-                'bias_score': quality_analysis.get('detailed_scores', {}).get('bias_score', 0),
+                # Detailed scores (convert to integers for database)
+                'hallucination_risk': int(quality_analysis.get('detailed_scores', {}).get('hallucination_risk', 0) * 100),
+                'confidence_score': int(quality_analysis.get('detailed_scores', {}).get('confidence_score', 0) * 100),
+                'factual_consistency': int(quality_analysis.get('detailed_scores', {}).get('factual_consistency', 0) * 100),
+                'toxicity_score': int(quality_analysis.get('detailed_scores', {}).get('toxicity_score', 0) * 100),
+                'bias_score': int(quality_analysis.get('detailed_scores', {}).get('bias_score', 0) * 100),
                 
                 # Security analysis
-                'security_score': quality_analysis.get('security_analysis', {}).get('security_score', 1),
+                'security_score': int(quality_analysis.get('security_analysis', {}).get('security_score', 1) * 100),
                 'prompt_injection_detected': quality_analysis.get('security_analysis', {}).get('prompt_injection_detected', False),
                 'data_extraction_attempt': quality_analysis.get('security_analysis', {}).get('data_extraction_attempt', False),
                 'malicious_request': quality_analysis.get('security_analysis', {}).get('malicious_request', False),
@@ -207,7 +207,7 @@ class DatabaseService:
                 stats = response.data[0]
                 return {
                     'total_analyzed': stats.get('total_analyzed', 0),
-                    'avg_quality_score': float(stats.get('avg_quality_score', 0)),
+                    'avg_quality_score': float(stats.get('avg_quality_score', 0) or 0),
                     'high_risk_count': stats.get('high_risk_count', 0),
                     'hallucination_alerts': stats.get('hallucination_alerts', 0),
                     'security_incidents': stats.get('security_incidents', 0),
