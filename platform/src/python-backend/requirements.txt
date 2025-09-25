@@ -168,6 +168,7 @@ soupsieve==2.7
 SQLAlchemy==2.0.37
 starlette==0.47.2
 streamlit==1.48.0
+supabase==2.8.0
 tenacity==9.1.2
 threadpoolctl==3.6.0
 toml==0.10.2
