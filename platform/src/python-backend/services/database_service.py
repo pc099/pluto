@@ -164,15 +164,15 @@ class DatabaseService:
                 'risk_level': quality_analysis.get('risk_level', 'UNKNOWN'),
                 'analysis_duration_ms': int(quality_analysis.get('analysis_duration_ms', 0)),
                 
-                # Detailed scores (convert to integers for database)
-                'hallucination_risk': int(quality_analysis.get('detailed_scores', {}).get('hallucination_risk', 0) * 100),
-                'confidence_score': int(quality_analysis.get('detailed_scores', {}).get('confidence_score', 0) * 100),
-                'factual_consistency': int(quality_analysis.get('detailed_scores', {}).get('factual_consistency', 0) * 100),
-                'toxicity_score': int(quality_analysis.get('detailed_scores', {}).get('toxicity_score', 0) * 100),
-                'bias_score': int(quality_analysis.get('detailed_scores', {}).get('bias_score', 0) * 100),
+                # Detailed scores (fit database precision 4,3 - max value 9.999)
+                'hallucination_risk': min(9.999, float(quality_analysis.get('detailed_scores', {}).get('hallucination_risk', 0))),
+                'confidence_score': min(9.999, float(quality_analysis.get('detailed_scores', {}).get('confidence_score', 0))),
+                'factual_consistency': min(9.999, float(quality_analysis.get('detailed_scores', {}).get('factual_consistency', 0))),
+                'toxicity_score': min(9.999, float(quality_analysis.get('detailed_scores', {}).get('toxicity_score', 0))),
+                'bias_score': min(9.999, float(quality_analysis.get('detailed_scores', {}).get('bias_score', 0))),
                 
                 # Security analysis
-                'security_score': int(quality_analysis.get('security_analysis', {}).get('security_score', 1) * 100),
+                'security_score': min(9.999, float(quality_analysis.get('security_analysis', {}).get('security_score', 1))),
                 'prompt_injection_detected': quality_analysis.get('security_analysis', {}).get('prompt_injection_detected', False),
                 'data_extraction_attempt': quality_analysis.get('security_analysis', {}).get('data_extraction_attempt', False),
                 'malicious_request': quality_analysis.get('security_analysis', {}).get('malicious_request', False),
@@ -203,9 +203,9 @@ class DatabaseService:
                 'risk_level': 'UNKNOWN',
                 'analysis_duration_ms': 0,
                 
-                # Convert scores to integers (multiply by 100 to store as percentages)
-                'hallucination_risk': int(float(quality_data.get('hallucination_risk', 0)) * 100) if isinstance(quality_data.get('hallucination_risk'), (int, float)) else 0,
-                'confidence_score': int(float(quality_data.get('confidence_score', 0)) * 100),
+                # Convert scores to fit database precision (4,3 - max value 9.999)
+                'hallucination_risk': min(9.999, float(quality_data.get('hallucination_risk', 0))) if isinstance(quality_data.get('hallucination_risk'), (int, float)) else 0,
+                'confidence_score': min(9.999, float(quality_data.get('confidence_score', 0))),
                 'factual_consistency': 0,
                 'toxicity_score': 0,
                 'bias_score': 0,
