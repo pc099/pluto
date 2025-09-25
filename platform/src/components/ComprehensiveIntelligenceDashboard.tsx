@@ -53,31 +53,38 @@ export default function ComprehensiveIntelligenceDashboard() {
       setLoading(true)
       setError(null)
 
-      // Fetch comprehensive intelligence data
+      // Fetch comprehensive intelligence data with cache busting
+      const timestamp = Date.now()
       const [metricsResponse, agentsResponse, providersResponse] = await Promise.all([
-        fetch(`${API_BASE}/intelligence/metrics`),
-        fetch(`${API_BASE}/intelligence/agents/performance`),
-        fetch(`${API_BASE}/intelligence/providers/comparison`)
+        fetch(`${API_BASE}/intelligence/metrics?t=${timestamp}`),
+        fetch(`${API_BASE}/intelligence/agents/performance?t=${timestamp}`),
+        fetch(`${API_BASE}/intelligence/providers/comparison?t=${timestamp}`)
       ])
 
       if (metricsResponse.ok) {
         const metricsData = await metricsResponse.json()
         setMetrics(metricsData)
+      } else {
+        console.error('Metrics response not ok:', metricsResponse.status, metricsResponse.statusText)
       }
 
       if (agentsResponse.ok) {
         const agentsData = await agentsResponse.json()
         setAgentPerformance(agentsData)
+      } else {
+        console.error('Agents response not ok:', agentsResponse.status, agentsResponse.statusText)
       }
 
       if (providersResponse.ok) {
         const providersData = await providersResponse.json()
         setProviderComparison(providersData)
+      } else {
+        console.error('Providers response not ok:', providersResponse.status, providersResponse.statusText)
       }
 
     } catch (err) {
       console.error('Error fetching intelligence data:', err)
-      setError('Failed to load intelligence data')
+      setError(`Failed to load intelligence data: ${err instanceof Error ? err.message : 'Unknown error'}`)
     } finally {
       setLoading(false)
     }
