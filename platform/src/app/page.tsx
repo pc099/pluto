@@ -45,11 +45,21 @@ export default function Home() {
     }
   }, [])
 
-  const handleAuthSuccess = (userData: User) => {
-    setUser(userData)
+  const handleAuthSuccess = (userData: { id: string; email: string; name?: string }) => {
+    const fullUserData: User = {
+      id: userData.id,
+      name: userData.name || 'User',
+      email: userData.email,
+      plan: 'free',
+      joinedAt: new Date().toISOString(),
+      lastActive: new Date().toISOString(),
+      totalRequests: 0,
+      totalCost: 0
+    }
+    setUser(fullUserData)
     setShowAuthModal(false)
     setIsLandingPage(false)
-    localStorage.setItem('pluto-user', JSON.stringify(userData))
+    localStorage.setItem('pluto-user', JSON.stringify(fullUserData))
   }
 
   const handleLogout = () => {

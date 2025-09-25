@@ -8,7 +8,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
 
-const API_BASE = 'http://localhost:8000'
+const API_BASE = 'https://pluto-backend-qprv.onrender.com'
 
 interface Policy {
   id: string
@@ -78,6 +78,7 @@ export default function PolicyManagementDashboard() {
   const [loading, setLoading] = useState(true)
   const [showCreateForm, setShowCreateForm] = useState(false)
   const [formData, setFormData] = useState<PolicyFormData>(initialFormData)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [testResult, setTestResult] = useState<any>(null)
 
   useEffect(() => {
@@ -98,10 +99,13 @@ export default function PolicyManagementDashboard() {
 
   const createPolicy = async () => {
     try {
-      const policyData: any = {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const policyData: Record<string, any> = {
         name: formData.name,
         type: formData.type,
-        action: formData.action
+        action: formData.action,
+        conditions: '',
+        description: ''
       }
 
       // Add type-specific fields
@@ -165,7 +169,7 @@ export default function PolicyManagementDashboard() {
         alert('Failed to create policy: ' + (result.error || 'Unknown error'))
       }
     } catch (error) {
-      alert('Error creating policy: ' + error.message)
+      alert('Error creating policy: ' + (error instanceof Error ? error.message : 'Unknown error'))
     }
   }
 
@@ -184,7 +188,7 @@ export default function PolicyManagementDashboard() {
         alert('Failed to delete policy')
       }
     } catch (error) {
-      alert('Error deleting policy: ' + error.message)
+      alert('Error deleting policy: ' + (error instanceof Error ? error.message : 'Unknown error'))
     }
   }
 
@@ -211,7 +215,7 @@ export default function PolicyManagementDashboard() {
       const result = await response.json()
       setTestResult(result)
     } catch (error) {
-      alert('Error testing policies: ' + error.message)
+      alert('Error testing policies: ' + (error instanceof Error ? error.message : 'Unknown error'))
     }
   }
 
@@ -291,7 +295,7 @@ export default function PolicyManagementDashboard() {
                 <div className="mt-2">
                   <strong>Violations:</strong>
                   <ul className="list-disc list-inside mt-1">
-                    {testResult.violations.map((violation: any, index: number) => (
+                    {testResult.violations.map((violation: { type: string; message: string }, index: number) => (
                       <li key={index} className="text-sm">
                         {violation.type}: {violation.message}
                       </li>
@@ -527,7 +531,7 @@ export default function PolicyManagementDashboard() {
         {policies.length === 0 ? (
           <Card>
             <CardContent className="p-6 text-center">
-              <p className="text-gray-500">No policies created yet. Click "Create Policy" to get started!</p>
+              <p className="text-gray-500">No policies created yet. Click &quot;Create Policy&quot; to get started!</p>
             </CardContent>
           </Card>
         ) : (

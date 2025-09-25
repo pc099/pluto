@@ -148,7 +148,13 @@ export default function ChatPage() {
 
   return (
     <div className="h-screen bg-gray-50 flex flex-col">
-      <Navigation currentPage="chat" />
+      <Navigation 
+        currentPage="chat"
+        onAuth={() => {}}
+        onLogout={() => {}}
+        onProfile={() => {}}
+        onSettings={() => {}}
+      />
       <div className="flex-1 flex">
         {/* Sidebar */}
         <div className="w-80 bg-white border-r flex flex-col">

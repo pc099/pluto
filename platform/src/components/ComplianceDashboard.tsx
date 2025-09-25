@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 
-const API_BASE = 'http://localhost:8000'
+const API_BASE = 'https://pluto-backend-qprv.onrender.com'
 
 interface ComplianceFramework {
   id: string
@@ -331,7 +331,7 @@ export default function ComplianceDashboard() {
                 ) : (
                   <div className="text-center text-gray-500">
                     <p className="text-sm">Not assessed</p>
-                    <p className="text-xs">Click "Assess" to run compliance check</p>
+                    <p className="text-xs">Click &quot;Assess&quot; to run compliance check</p>
                   </div>
                 )}
               </CardContent>

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 
-const API_BASE = 'http://localhost:8000'
+const API_BASE = 'https://pluto-backend-qprv.onrender.com'
 
 interface QualityAnalysis {
   analysis_id: string

@@ -12,7 +12,7 @@ import PlutoLogo from '@/components/PlutoLogo'
 interface AuthModalProps {
   isOpen: boolean
   onClose: () => void
-  onAuthSuccess: (user: any) => void
+  onAuthSuccess: (user: { id: string; email: string; name?: string }) => void
 }
 
 export default function AuthModal({ isOpen, onClose, onAuthSuccess }: AuthModalProps) {

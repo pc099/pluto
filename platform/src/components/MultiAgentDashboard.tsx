@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 
-const API_BASE = 'http://localhost:8000'
+const API_BASE = 'https://pluto-backend-qprv.onrender.com'
 
 interface AgentType {
   id: string
