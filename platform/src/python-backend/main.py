@@ -16,11 +16,24 @@ from services.compliance_native_monitoring import compliance_monitor, Compliance
 from services.multi_agent_manager import multi_agent_manager, AgentType, RoutingStrategy
 from proxy.ai_providers import PROVIDERS
 
+# Import authentication modules
+from modules.auth.routes import router as auth_router
+from modules.auth.auth_service import auth_service
+
+# Import AI modules
+from modules.ai.routes import router as ai_router
+
 app = FastAPI(
     title="Enterprise AI Control Plane",
     description="Monitor, secure, and manage your AI usage in real time",
     version="1.0.0"
 )
+
+# Include authentication routes
+app.include_router(auth_router)
+
+# Include AI routes
+app.include_router(ai_router)
 
 # Enable CORS for frontend
 app.add_middleware(

@@ -5,6 +5,9 @@ starlette==0.47.2
 
 # Database and authentication
 supabase==2.8.0
+passlib[bcrypt]==1.7.4
+python-jose[cryptography]==3.3.0
+email-validator==2.1.1
 
 # HTTP client (compatible with supabase)
 httpx>=0.24,<0.28
