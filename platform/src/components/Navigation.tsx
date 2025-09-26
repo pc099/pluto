@@ -131,7 +131,7 @@ export default function Navigation({
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                       <Avatar className="h-8 w-8">
-                        <AvatarImage src={user.avatar} />
+                        <AvatarImage src={undefined} />
                         <AvatarFallback className="bg-gradient-to-r from-purple-600 to-blue-600 text-white text-sm">
                           {getInitials(`${user.first_name} ${user.last_name}`)}
                         </AvatarFallback>

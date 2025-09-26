@@ -180,7 +180,7 @@ export default function UserProfile({ user, onUpdate, onLogout }: UserProfilePro
             <CardContent className="space-y-4">
               <div className="flex items-center space-x-4">
                 <Avatar className="w-20 h-20">
-                  <AvatarImage src={editedUser.avatar} />
+                  <AvatarImage src={undefined} />
                   <AvatarFallback className="bg-gradient-to-r from-purple-600 to-blue-600 text-white text-xl">
                     {getInitials(`${editedUser.first_name} ${editedUser.last_name}`)}
                   </AvatarFallback>
