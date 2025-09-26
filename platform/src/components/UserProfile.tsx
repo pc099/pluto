@@ -24,14 +24,16 @@ import {
 
 interface User {
   id: string
-  name: string
   email: string
-  avatar?: string
-  plan: 'free' | 'pro' | 'enterprise'
-  joinedAt: string
-  lastActive: string
-  totalRequests: number
-  totalCost: number
+  first_name: string
+  last_name: string
+  role: 'admin' | 'user' | 'viewer'
+  organization_id?: string
+  api_key?: string
+  quota_limit: number
+  quota_used: number
+  is_active: boolean
+  created_at: string
 }
 
 interface UserProfileProps {
@@ -55,11 +57,11 @@ export default function UserProfile({ user, onUpdate, onLogout }: UserProfilePro
     setIsEditing(false)
   }
 
-  const getPlanColor = (plan: string) => {
-    switch (plan) {
-      case 'free': return 'bg-gray-100 text-gray-800'
-      case 'pro': return 'bg-purple-100 text-purple-800'
-      case 'enterprise': return 'bg-blue-100 text-blue-800'
+  const getRoleColor = (role: string) => {
+    switch (role) {
+      case 'admin': return 'bg-red-100 text-red-800'
+      case 'user': return 'bg-blue-100 text-blue-800'
+      case 'viewer': return 'bg-gray-100 text-gray-800'
       default: return 'bg-gray-100 text-gray-800'
     }
   }
@@ -76,17 +78,17 @@ export default function UserProfile({ user, onUpdate, onLogout }: UserProfilePro
           <Avatar className="w-16 h-16">
             <AvatarImage src={editedUser.avatar} />
             <AvatarFallback className="bg-gradient-to-r from-purple-600 to-blue-600 text-white text-lg">
-              {getInitials(editedUser.name)}
+              {getInitials(`${editedUser.first_name} ${editedUser.last_name}`)}
             </AvatarFallback>
           </Avatar>
           <div>
-            <h1 className="text-2xl font-bold">{editedUser.name}</h1>
+            <h1 className="text-2xl font-bold">{editedUser.first_name} {editedUser.last_name}</h1>
             <div className="flex items-center space-x-2">
-              <Badge className={getPlanColor(editedUser.plan)}>
-                {editedUser.plan.toUpperCase()}
+              <Badge className={getRoleColor(editedUser.role)}>
+                {editedUser.role.toUpperCase()}
               </Badge>
               <span className="text-sm text-gray-500">
-                Member since {new Date(editedUser.joinedAt).toLocaleDateString()}
+                Member since {new Date(editedUser.created_at).toLocaleDateString()}
               </span>
             </div>
           </div>
@@ -122,8 +124,8 @@ export default function UserProfile({ user, onUpdate, onLogout }: UserProfilePro
                 <User className="w-5 h-5 text-blue-600" />
               </div>
               <div>
-                <p className="text-sm text-gray-600">Total Requests</p>
-                <p className="text-2xl font-bold">{(editedUser.totalRequests || 0).toLocaleString()}</p>
+                <p className="text-sm text-gray-600">Quota Used</p>
+                <p className="text-2xl font-bold">{(editedUser.quota_used || 0).toLocaleString()}</p>
               </div>
             </div>
           </CardContent>
@@ -136,8 +138,8 @@ export default function UserProfile({ user, onUpdate, onLogout }: UserProfilePro
                 <CreditCard className="w-5 h-5 text-green-600" />
               </div>
               <div>
-                <p className="text-sm text-gray-600">Total Cost</p>
-                <p className="text-2xl font-bold">${(editedUser.totalCost || 0).toFixed(2)}</p>
+                <p className="text-sm text-gray-600">Quota Limit</p>
+                <p className="text-2xl font-bold">{(editedUser.quota_limit || 0).toLocaleString()}</p>
               </div>
             </div>
           </CardContent>
@@ -150,8 +152,8 @@ export default function UserProfile({ user, onUpdate, onLogout }: UserProfilePro
                 <Shield className="w-5 h-5 text-purple-600" />
               </div>
               <div>
-                <p className="text-sm text-gray-600">Plan</p>
-                <p className="text-2xl font-bold">{editedUser.plan.toUpperCase()}</p>
+                <p className="text-sm text-gray-600">Role</p>
+                <p className="text-2xl font-bold">{editedUser.role.toUpperCase()}</p>
               </div>
             </div>
           </CardContent>
@@ -180,7 +182,7 @@ export default function UserProfile({ user, onUpdate, onLogout }: UserProfilePro
                 <Avatar className="w-20 h-20">
                   <AvatarImage src={editedUser.avatar} />
                   <AvatarFallback className="bg-gradient-to-r from-purple-600 to-blue-600 text-white text-xl">
-                    {getInitials(editedUser.name)}
+                    {getInitials(`${editedUser.first_name} ${editedUser.last_name}`)}
                   </AvatarFallback>
                 </Avatar>
                 <div className="space-y-2">
@@ -196,11 +198,21 @@ export default function UserProfile({ user, onUpdate, onLogout }: UserProfilePro
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Full Name</Label>
+                  <Label htmlFor="first_name">First Name</Label>
                   <Input
-                    id="name"
-                    value={editedUser.name}
-                    onChange={(e) => setEditedUser({ ...editedUser, name: e.target.value })}
+                    id="first_name"
+                    value={editedUser.first_name}
+                    onChange={(e) => setEditedUser({ ...editedUser, first_name: e.target.value })}
+                    disabled={!isEditing}
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="last_name">Last Name</Label>
+                  <Input
+                    id="last_name"
+                    value={editedUser.last_name}
+                    onChange={(e) => setEditedUser({ ...editedUser, last_name: e.target.value })}
                     disabled={!isEditing}
                   />
                 </div>
