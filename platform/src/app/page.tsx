@@ -12,65 +12,46 @@ import MultiAgentDashboard from '@/components/MultiAgentDashboard'
 import Navigation from '@/components/Navigation'
 import DashboardLayout from '@/components/DashboardLayout'
 import LandingPage from '@/components/LandingPage'
-import AuthModal from '@/components/auth/AuthModal'
 import UserProfile from '@/components/UserProfile'
-
-interface User {
-  id: string
-  name: string
-  email: string
-  avatar?: string
-  plan: 'free' | 'pro' | 'enterprise'
-  joinedAt: string
-  lastActive: string
-  totalRequests: number
-  totalCost: number
-}
+import ProtectedRoute from '@/components/auth/ProtectedRoute'
+import { authService, User } from '@/lib/auth'
 
 export default function Home() {
   const router = useRouter()
   const pathname = usePathname()
   const [user, setUser] = useState<User | null>(null)
-  const [showAuthModal, setShowAuthModal] = useState(false)
   const [showProfile, setShowProfile] = useState(false)
   const [activeTab, setActiveTab] = useState<'intelligence' | 'live' | 'analytics' | 'quality' | 'policies' | 'compliance' | 'multi-agent' | 'settings'>('intelligence')
   const [isLandingPage, setIsLandingPage] = useState(true)
 
   // Check if user is logged in on component mount
   useEffect(() => {
-    const savedUser = localStorage.getItem('pluto-user')
-    if (savedUser) {
-      setUser(JSON.parse(savedUser))
-      setIsLandingPage(false)
+    const checkAuth = async () => {
+      if (authService.isAuthenticated()) {
+        const currentUser = await authService.getCurrentUser()
+        if (currentUser) {
+          setUser(currentUser)
+          setIsLandingPage(false)
+        } else {
+          authService.logout()
+          setIsLandingPage(true)
+        }
+      } else {
+        setIsLandingPage(true)
+      }
     }
+    checkAuth()
   }, [])
 
-  const handleAuthSuccess = (userData: { id: string; email: string; name?: string }) => {
-    const fullUserData: User = {
-      id: userData.id,
-      name: userData.name || 'User',
-      email: userData.email,
-      plan: 'free',
-      joinedAt: new Date().toISOString(),
-      lastActive: new Date().toISOString(),
-      totalRequests: 0,
-      totalCost: 0
-    }
-    setUser(fullUserData)
-    setShowAuthModal(false)
-    setIsLandingPage(false)
-    localStorage.setItem('pluto-user', JSON.stringify(fullUserData))
-  }
-
   const handleLogout = () => {
+    authService.logout()
     setUser(null)
     setShowProfile(false)
     setIsLandingPage(true)
-    localStorage.removeItem('pluto-user')
   }
 
   const handleAuth = () => {
-    setShowAuthModal(true)
+    router.push('/login')
   }
 
   const handleProfile = () => {
@@ -82,32 +63,24 @@ export default function Home() {
   }
 
   const handleGetStarted = () => {
-    setShowAuthModal(true)
+    router.push('/login')
   }
 
   const handleSignIn = () => {
-    setShowAuthModal(true)
+    router.push('/login')
   }
 
   const updateUser = (updatedUser: User) => {
     setUser(updatedUser)
-    localStorage.setItem('pluto-user', JSON.stringify(updatedUser))
   }
 
   // Show landing page if user is not logged in
   if (isLandingPage) {
     return (
-      <>
-        <LandingPage 
-          onGetStarted={handleGetStarted}
-          onSignIn={handleSignIn}
-        />
-        <AuthModal
-          isOpen={showAuthModal}
-          onClose={() => setShowAuthModal(false)}
-          onAuthSuccess={handleAuthSuccess}
-        />
-      </>
+      <LandingPage 
+        onGetStarted={handleGetStarted}
+        onSignIn={handleSignIn}
+      />
     )
   }
 
@@ -158,11 +131,6 @@ export default function Home() {
         </div>
       </DashboardLayout>
 
-      <AuthModal
-        isOpen={showAuthModal}
-        onClose={() => setShowAuthModal(false)}
-        onAuthSuccess={handleAuthSuccess}
-      />
     </>
   )
 

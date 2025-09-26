@@ -27,10 +27,16 @@ import PlutoLogo from '@/components/PlutoLogo'
 
 interface User {
   id: string
-  name: string
   email: string
-  avatar?: string
-  plan: 'free' | 'pro' | 'enterprise'
+  first_name: string
+  last_name: string
+  role: 'admin' | 'user' | 'viewer'
+  organization_id?: string
+  api_key?: string
+  quota_limit: number
+  quota_used: number
+  is_active: boolean
+  created_at: string
 }
 
 interface NavigationProps {
@@ -127,7 +133,7 @@ export default function Navigation({
                       <Avatar className="h-8 w-8">
                         <AvatarImage src={user.avatar} />
                         <AvatarFallback className="bg-gradient-to-r from-purple-600 to-blue-600 text-white text-sm">
-                          {getInitials(user.name)}
+                          {getInitials(`${user.first_name} ${user.last_name}`)}
                         </AvatarFallback>
                       </Avatar>
                     </Button>
@@ -135,12 +141,12 @@ export default function Navigation({
                   <DropdownMenuContent className="w-56" align="end" forceMount>
                     <DropdownMenuLabel className="font-normal">
                       <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-medium leading-none">{user.name}</p>
+                        <p className="text-sm font-medium leading-none">{user.first_name} {user.last_name}</p>
                         <p className="text-xs leading-none text-muted-foreground">
                           {user.email}
                         </p>
                         <p className="text-xs leading-none text-muted-foreground capitalize">
-                          {user.plan} Plan
+                          {user.role} Role
                         </p>
                       </div>
                     </DropdownMenuLabel>
