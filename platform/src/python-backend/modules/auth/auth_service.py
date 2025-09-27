@@ -28,10 +28,18 @@ class AuthenticationService:
     
     def hash_password(self, password: str) -> str:
         """Hash a password using bcrypt"""
+        # Truncate password to 72 bytes to avoid bcrypt limitation
+        password_bytes = password.encode('utf-8')
+        if len(password_bytes) > 72:
+            password = password_bytes[:72].decode('utf-8', errors='ignore')
         return self.pwd_context.hash(password)
     
     def verify_password(self, plain_password: str, hashed_password: str) -> bool:
         """Verify a password against its hash"""
+        # Truncate password to 72 bytes to avoid bcrypt limitation
+        password_bytes = plain_password.encode('utf-8')
+        if len(password_bytes) > 72:
+            plain_password = password_bytes[:72].decode('utf-8', errors='ignore')
         return self.pwd_context.verify(plain_password, hashed_password)
     
     def generate_api_key(self) -> str:
