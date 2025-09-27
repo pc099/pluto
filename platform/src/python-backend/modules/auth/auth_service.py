@@ -203,9 +203,17 @@ class AuthenticationService:
         try:
             response = self.supabase.table('users').select('*').eq('email', login_data.email).eq('is_active', True).execute()
             
+            print(f"Supabase response: {response.data}")
+            
             if response.data:
                 user = response.data[0]
-                if self.verify_password(login_data.password, user['password_hash']):
+                print(f"Found user: {user['email']}")
+                print(f"Password verification attempt for: {login_data.email}")
+                
+                password_valid = self.verify_password(login_data.password, user['password_hash'])
+                print(f"Password verification result: {password_valid}")
+                
+                if password_valid:
                     return UserResponse(
                         id=user['id'],
                         email=user['email'],
@@ -219,6 +227,10 @@ class AuthenticationService:
                         is_active=user['is_active'],
                         created_at=datetime.fromisoformat(user['created_at'].replace('Z', '+00:00'))
                     )
+                else:
+                    print(f"Password verification failed for user: {login_data.email}")
+            else:
+                print(f"No user found with email: {login_data.email}")
         except Exception as e:
             print(f"Error authenticating user: {e}")
         

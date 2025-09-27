@@ -173,3 +173,40 @@ async def get_user_quota(current_user: UserResponse = Depends(get_current_user))
         "quota_remaining": current_user.quota_limit - current_user.quota_used,
         "usage_percentage": (current_user.quota_used / current_user.quota_limit) * 100 if current_user.quota_limit > 0 else 0
     }
+
+@router.get("/debug")
+async def debug_auth_status():
+    """Debug endpoint to check authentication service status"""
+    import os
+    return {
+        "supabase_configured": bool(auth_service.supabase),
+        "supabase_url": bool(os.getenv("SUPABASE_URL")),
+        "supabase_key": bool(os.getenv("SUPABASE_SERVICE_KEY")),
+        "mock_mode": not bool(auth_service.supabase)
+    }
+
+@router.post("/debug/password")
+async def debug_password_verification(password: str):
+    """Debug endpoint to test password verification"""
+    stored_hash = "$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj4J/8KzKz2a"
+    
+    # Test original password
+    original_result = auth_service.pwd_context.verify(password, stored_hash)
+    
+    # Test with our truncation logic
+    password_bytes = password.encode('utf-8')
+    if len(password_bytes) > 72:
+        truncated_password = password_bytes[:72].decode('utf-8', errors='ignore')
+    else:
+        truncated_password = password
+    
+    truncated_result = auth_service.pwd_context.verify(truncated_password, stored_hash)
+    
+    return {
+        "password": password,
+        "password_length": len(password.encode('utf-8')),
+        "truncated_password": truncated_password,
+        "original_verification": original_result,
+        "truncated_verification": truncated_result,
+        "stored_hash": stored_hash
+    }
