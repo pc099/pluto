@@ -41,7 +41,7 @@ export default function LoginForm({ onAuthSuccess }: LoginFormProps) {
       await authService.login(loginData)
       setSuccess('Login successful!')
       onAuthSuccess?.()
-      router.push('/dashboard')
+      router.push('/')
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed')
     } finally {
@@ -59,7 +59,7 @@ export default function LoginForm({ onAuthSuccess }: LoginFormProps) {
       await authService.register(registerData)
       setSuccess('Registration successful!')
       onAuthSuccess?.()
-      router.push('/dashboard')
+      router.push('/')
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Registration failed')
     } finally {

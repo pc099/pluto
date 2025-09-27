@@ -126,11 +126,10 @@ export default function ChatInterface() {
 
   return (
     <div className="flex flex-col h-full max-w-4xl mx-auto">
-      {/* Header */}
+      {/* Model Selection and Controls */}
       <Card className="mb-4">
-        <CardHeader className="pb-3">
+        <CardContent className="pt-4">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-lg">AI Chat Interface</CardTitle>
             <div className="flex items-center gap-4">
               <Select value={selectedModel} onValueChange={setSelectedModel}>
                 <SelectTrigger className="w-48">
@@ -144,35 +143,21 @@ export default function ChatInterface() {
                   ))}
                 </SelectContent>
               </Select>
-              <Button variant="outline" size="sm" onClick={clearChat}>
-                Clear Chat
-              </Button>
+              {user && (
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <span>Quota: {user.quota_used.toLocaleString()} / {user.quota_limit.toLocaleString()}</span>
+                  <Badge variant="secondary" className="text-xs">
+                    {((user.quota_used / user.quota_limit) * 100).toFixed(1)}% used
+                  </Badge>
+                </div>
+              )}
             </div>
+            <Button variant="outline" size="sm" onClick={clearChat}>
+              Clear Chat
+            </Button>
           </div>
-        </CardHeader>
+        </CardContent>
       </Card>
-
-      {/* User Info */}
-      {user && (
-        <Card className="mb-4">
-          <CardContent className="pt-4">
-            <div className="flex items-center justify-between text-sm">
-              <div>
-                <span className="font-medium">{user.first_name} {user.last_name}</span>
-                <span className="text-gray-500 ml-2">({user.email})</span>
-              </div>
-              <div className="flex items-center gap-4">
-                <Badge variant="outline">
-                  Quota: {user.quota_used.toLocaleString()} / {user.quota_limit.toLocaleString()}
-                </Badge>
-                <Badge variant="secondary">
-                  {((user.quota_used / user.quota_limit) * 100).toFixed(1)}% used
-                </Badge>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
 
       {/* Messages */}
       <Card className="flex-1 mb-4">
