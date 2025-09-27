@@ -3,6 +3,7 @@ import os
 import time
 import httpx
 from typing import Dict, Any, Optional
+from openai import OpenAI
 from .models import ChatRequest, ChatResponse, RoutingDecision, AIProvider
 
 class AIService:
@@ -34,56 +35,63 @@ class AIService:
             raise ValueError(f"Unsupported provider: {routing_decision.provider}")
     
     async def _call_openai(self, request: ChatRequest, routing: RoutingDecision) -> ChatResponse:
-        """Call OpenAI API"""
+        """Call OpenAI API using official client"""
         if not self.openai_api_key:
             raise ValueError("OpenAI API key not configured")
         
         start_time = time.time()
         
-        # Prepare OpenAI request
-        openai_request = {
-            "model": routing.model,
-            "messages": [{"role": msg.role.value, "content": msg.content} for msg in request.messages],
-            "temperature": request.temperature,
-            "max_tokens": request.max_tokens
-        }
-        
         try:
-            async with httpx.AsyncClient(timeout=60.0) as client:
-                response = await client.post(
-                    "https://api.openai.com/v1/chat/completions",
-                    headers={
-                        "Authorization": f"Bearer {self.openai_api_key}",
-                        "Content-Type": "application/json"
+            # Initialize OpenAI client
+            client = OpenAI(api_key=self.openai_api_key)
+            
+            # Prepare messages for OpenAI
+            messages = [{"role": msg.role.value, "content": msg.content} for msg in request.messages]
+            
+            # Make the API call
+            response = client.chat.completions.create(
+                model=routing.model,
+                messages=messages,
+                temperature=request.temperature or 0.7,
+                max_tokens=request.max_tokens or 1000
+            )
+            
+            duration = time.time() - start_time
+            
+            # Calculate cost (simplified)
+            usage = response.usage
+            input_tokens = usage.prompt_tokens if usage else 0
+            output_tokens = usage.completion_tokens if usage else 0
+            
+            # Simple cost calculation (GPT-3.5-turbo pricing)
+            cost = (input_tokens * 0.0015 + output_tokens * 0.002) / 1000
+            
+            # Convert response to our format
+            choices = []
+            for choice in response.choices:
+                choices.append({
+                    "index": choice.index,
+                    "message": {
+                        "role": choice.message.role,
+                        "content": choice.message.content
                     },
-                    json=openai_request
-                )
-                
-                duration = time.time() - start_time
-                
-                if response.status_code == 200:
-                    data = response.json()
-                    
-                    # Calculate cost (simplified)
-                    usage = data.get("usage", {})
-                    input_tokens = usage.get("prompt_tokens", 0)
-                    output_tokens = usage.get("completion_tokens", 0)
-                    
-                    # Simple cost calculation (GPT-3.5-turbo pricing)
-                    cost = (input_tokens * 0.0015 + output_tokens * 0.002) / 1000
-                    
-                    return ChatResponse(
-                        id=data.get("id", "unknown"),
-                        created=data.get("created", int(time.time())),
-                        model=data.get("model", routing.model),
-                        choices=data.get("choices", []),
-                        usage=usage,
-                        cost=cost,
-                        duration=duration,
-                        provider="openai"
-                    )
-                else:
-                    raise Exception(f"OpenAI API error: {response.status_code} - {response.text}")
+                    "finish_reason": choice.finish_reason
+                })
+            
+            return ChatResponse(
+                id=response.id,
+                created=response.created,
+                model=response.model,
+                choices=choices,
+                usage={
+                    "prompt_tokens": input_tokens,
+                    "completion_tokens": output_tokens,
+                    "total_tokens": input_tokens + output_tokens
+                },
+                cost=cost,
+                duration=duration,
+                provider="openai"
+            )
                     
         except Exception as e:
             raise Exception(f"Failed to call OpenAI: {str(e)}")

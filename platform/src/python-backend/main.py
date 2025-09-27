@@ -8,6 +8,11 @@ import uvicorn
 import json
 import random
 from datetime import datetime, timedelta
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
 
 from services.lambda_service import lambda_service
 from services.database_service import db_service
