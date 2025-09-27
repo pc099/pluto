@@ -16,7 +16,7 @@ import {
   Search, 
   Bell, 
   Settings, 
-  User, 
+  User as UserIcon, 
   LogOut, 
   CreditCard, 
   HelpCircle,
@@ -25,19 +25,7 @@ import {
 } from 'lucide-react'
 import PlutoLogo from '@/components/PlutoLogo'
 
-interface User {
-  id: string
-  email: string
-  first_name: string
-  last_name: string
-  role: 'admin' | 'user' | 'viewer'
-  organization_id?: string
-  api_key?: string
-  quota_limit: number
-  quota_used: number
-  is_active: boolean
-  created_at: string
-}
+import { User } from '@/lib/auth'
 
 interface NavigationProps {
   user?: User
@@ -152,7 +140,7 @@ export default function Navigation({
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={onProfile}>
-                      <User className="mr-2 h-4 w-4" />
+                      <UserIcon className="mr-2 h-4 w-4" />
                       <span>Profile</span>
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={onSettings}>

@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { 
-  User, 
+  User as UserIcon, 
   Mail, 
   Settings, 
   Bell, 
@@ -22,19 +22,7 @@ import {
   X
 } from 'lucide-react'
 
-interface User {
-  id: string
-  email: string
-  first_name: string
-  last_name: string
-  role: 'admin' | 'user' | 'viewer'
-  organization_id?: string
-  api_key?: string
-  quota_limit: number
-  quota_used: number
-  is_active: boolean
-  created_at: string
-}
+import { User } from '@/lib/auth'
 
 interface UserProfileProps {
   user: User
@@ -76,7 +64,7 @@ export default function UserProfile({ user, onUpdate, onLogout }: UserProfilePro
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
           <Avatar className="w-16 h-16">
-            <AvatarImage src={editedUser.avatar} />
+            <AvatarImage src={undefined} />
             <AvatarFallback className="bg-gradient-to-r from-purple-600 to-blue-600 text-white text-lg">
               {getInitials(`${editedUser.first_name} ${editedUser.last_name}`)}
             </AvatarFallback>
@@ -121,7 +109,7 @@ export default function UserProfile({ user, onUpdate, onLogout }: UserProfilePro
           <CardContent className="p-4">
             <div className="flex items-center space-x-3">
               <div className="p-2 bg-blue-100 rounded-lg">
-                <User className="w-5 h-5 text-blue-600" />
+                <UserIcon className="w-5 h-5 text-blue-600" />
               </div>
               <div>
                 <p className="text-sm text-gray-600">Quota Used</p>
@@ -173,7 +161,7 @@ export default function UserProfile({ user, onUpdate, onLogout }: UserProfilePro
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
-                <User className="w-5 h-5" />
+                <UserIcon className="w-5 h-5" />
                 <span>Personal Information</span>
               </CardTitle>
             </CardHeader>
@@ -273,35 +261,31 @@ export default function UserProfile({ user, onUpdate, onLogout }: UserProfilePro
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <CreditCard className="w-5 h-5" />
-                <span>Billing & Usage</span>
+                <span>Usage & Quota</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between p-4 border rounded-lg">
                 <div>
-                  <h4 className="font-medium">Current Plan</h4>
-                  <p className="text-sm text-gray-600">{editedUser.plan.toUpperCase()} Plan</p>
+                  <h4 className="font-medium">Current Role</h4>
+                  <p className="text-sm text-gray-600">{editedUser.role.toUpperCase()} Role</p>
                 </div>
-                <Badge className={getPlanColor(editedUser.plan)}>
-                  {editedUser.plan.toUpperCase()}
+                <Badge className={getRoleColor(editedUser.role)}>
+                  {editedUser.role.toUpperCase()}
                 </Badge>
               </div>
               
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-4 border rounded-lg">
-                  <h4 className="font-medium">This Month</h4>
-                  <p className="text-2xl font-bold">${(editedUser.totalCost || 0).toFixed(2)}</p>
-                  <p className="text-sm text-gray-600">{editedUser.totalRequests} requests</p>
+                  <h4 className="font-medium">Quota Usage</h4>
+                  <p className="text-2xl font-bold">{editedUser.quota_used.toLocaleString()}</p>
+                  <p className="text-sm text-gray-600">tokens used</p>
                 </div>
                 
                 <div className="p-4 border rounded-lg">
-                  <h4 className="font-medium">Next Billing</h4>
-                  <p className="text-2xl font-bold">
-                    {editedUser.plan === 'free' ? '$0' : '$29'}
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    {new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString()}
-                  </p>
+                  <h4 className="font-medium">Quota Limit</h4>
+                  <p className="text-2xl font-bold">{editedUser.quota_limit.toLocaleString()}</p>
+                  <p className="text-sm text-gray-600">total tokens</p>
                 </div>
               </div>
               
