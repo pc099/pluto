@@ -25,11 +25,7 @@ import {
   Home,
   Bot,
   Shield,
-  BarChart3,
-  Activity,
-  Zap,
-  Users,
-  TrendingUp
+  BarChart3
 } from 'lucide-react'
 import PlutoLogo from '@/components/PlutoLogo'
 

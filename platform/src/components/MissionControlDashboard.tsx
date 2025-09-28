@@ -35,7 +35,7 @@ export default function MissionControlDashboard() {
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(null)
   const [systemStatus, setSystemStatus] = useState<SystemStatus | null>(null)
   const [trafficMetrics, setTrafficMetrics] = useState<TrafficMetrics | null>(null)
-  const [deviceStats, setDeviceStats] = useState<{ statistics: any; active_devices: DeviceInfo[] } | null>(null)
+  const [deviceStats, setDeviceStats] = useState<{ statistics: Record<string, unknown>; active_devices: DeviceInfo[] } | null>(null)
   const [alerts, setAlerts] = useState<SystemAlert[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)

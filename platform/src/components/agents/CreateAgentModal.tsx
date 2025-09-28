@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { 
   Dialog, 
@@ -17,20 +17,17 @@ import {
 } from '@/components/ui/dialog'
 import { 
   Bot, 
-  Plus, 
   X, 
-  Settings, 
   Zap, 
   MessageSquare, 
   BarChart3, 
-  Cog,
   CheckCircle
 } from 'lucide-react'
 
 interface CreateAgentModalProps {
   isOpen: boolean
   onClose: () => void
-  onCreateAgent: (agentData: AgentFormData) => void
+  onCreateAgent: (agentData: AgentFormData) => Promise<void>
 }
 
 interface AgentFormData {
@@ -153,7 +150,6 @@ export default function CreateAgentModal({ isOpen, onClose, onCreateAgent }: Cre
     }
   }
 
-  const getSelectedType = () => agentTypes.find(t => t.value === formData.type)
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>

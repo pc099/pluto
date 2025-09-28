@@ -14,9 +14,7 @@ import {
   Search, 
   Activity, 
   Zap, 
-  Users, 
   Settings, 
-  Play, 
   Pause, 
   Trash2,
   Edit,
@@ -178,7 +176,14 @@ export default function AgentsPage() {
     router.push('/settings')
   }
 
-  const handleCreateAgent = async (agentData: any) => {
+  const handleCreateAgent = async (agentData: {
+    name: string
+    description: string
+    type: string
+    model: string
+    provider: string
+    capabilities: string[]
+  }) => {
     try {
       // Mock agent creation - replace with actual API call
       const newAgent: AIAgent = {
@@ -208,15 +213,6 @@ export default function AgentsPage() {
     }
   }
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'active': return 'bg-green-500'
-      case 'inactive': return 'bg-gray-500'
-      case 'error': return 'bg-red-500'
-      case 'training': return 'bg-yellow-500'
-      default: return 'bg-gray-500'
-    }
-  }
 
   const getStatusIcon = (status: string) => {
     switch (status) {

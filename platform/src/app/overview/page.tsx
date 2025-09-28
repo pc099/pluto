@@ -13,17 +13,12 @@ import {
   Zap, 
   Shield, 
   BarChart3, 
-  Users, 
-  Clock,
   CheckCircle,
   AlertCircle,
   Plus,
   ArrowRight,
   DollarSign,
-  MessageSquare,
-  Database,
-  Server,
-  Eye
+  Server
 } from 'lucide-react'
 
 export default function OverviewPage() {
@@ -91,7 +86,7 @@ export default function OverviewPage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">System Overview</h1>
-              <p className="text-gray-600 mt-1">Welcome back, {user?.first_name}! Here's what's happening with your AI platform.</p>
+              <p className="text-gray-600 mt-1">Welcome back, {user?.first_name}! Here&apos;s what&apos;s happening with your AI platform.</p>
             </div>
             <div className="flex items-center space-x-3">
               <Badge variant="outline" className="flex items-center space-x-2">

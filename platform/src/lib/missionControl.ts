@@ -10,9 +10,9 @@ export interface SystemStatus {
   total_cost_today: number;
   security_incidents: number;
   pii_incidents: number;
-  system_health: Record<string, any>;
+  system_health: Record<string, unknown>;
   alerts: Alert[];
-  performance_metrics: Record<string, any>;
+  performance_metrics: Record<string, unknown>;
 }
 
 export interface Alert {
@@ -65,10 +65,10 @@ export interface DeviceInfo {
 
 export interface DashboardData {
   system_status: SystemStatus;
-  traffic_patterns: Record<string, any>;
-  device_statistics: Record<string, any>;
-  circuit_breakers: Record<string, any>;
-  alert_thresholds: Record<string, any>;
+  traffic_patterns: Record<string, unknown>;
+  device_statistics: Record<string, unknown>;
+  circuit_breakers: Record<string, unknown>;
+  alert_thresholds: Record<string, unknown>;
   timestamp: string;
 }
 
@@ -127,7 +127,7 @@ class MissionControlService {
   async getTrafficMetrics(hours: number = 24): Promise<{
     current_metrics: TrafficMetrics;
     historical_metrics: TrafficMetrics[];
-    traffic_patterns: Record<string, any>;
+    traffic_patterns: Record<string, unknown>;
   }> {
     try {
       const response = await fetch(`${API_BASE}/mission-control/traffic-metrics?hours=${hours}`, {
@@ -149,7 +149,7 @@ class MissionControlService {
   }
 
   async getDeviceStatistics(): Promise<{
-    statistics: Record<string, any>;
+    statistics: Record<string, unknown>;
     active_devices: DeviceInfo[];
   }> {
     try {
@@ -216,7 +216,7 @@ class MissionControlService {
     }
   }
 
-  async getEmergencyControls(): Promise<Record<string, any>> {
+  async getEmergencyControls(): Promise<Record<string, unknown>> {
     try {
       const response = await fetch(`${API_BASE}/mission-control/emergency-controls`, {
         method: 'GET',
@@ -236,7 +236,7 @@ class MissionControlService {
     }
   }
 
-  async emergencyShutdown(reason: string): Promise<Record<string, any>> {
+  async emergencyShutdown(reason: string): Promise<Record<string, unknown>> {
     try {
       const response = await fetch(`${API_BASE}/mission-control/emergency-shutdown`, {
         method: 'POST',
