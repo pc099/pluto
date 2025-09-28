@@ -78,7 +78,7 @@ export default function CreateAgentModal({ isOpen, onClose, onCreateAgent }: Cre
   const [currentStep, setCurrentStep] = useState(1)
   const [isCreating, setIsCreating] = useState(false)
 
-  const handleInputChange = (field: keyof AgentFormData, value: any) => {
+  const handleInputChange = (field: keyof AgentFormData, value: string | number) => {
     setFormData(prev => ({ ...prev, [field]: value }))
   }
 
