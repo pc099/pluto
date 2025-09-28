@@ -21,7 +21,15 @@ import {
   CreditCard, 
   HelpCircle,
   Menu,
-  X
+  X,
+  Home,
+  Bot,
+  Shield,
+  BarChart3,
+  Activity,
+  Zap,
+  Users,
+  TrendingUp
 } from 'lucide-react'
 import PlutoLogo from '@/components/PlutoLogo'
 
@@ -54,11 +62,11 @@ export default function Navigation({
   }
 
   const navigationItems = [
-    { id: 'dashboard', label: 'Dashboard', href: '/' },
-    { id: 'models', label: 'Models', href: '/models' },
-    { id: 'chat', label: 'Chat', href: '/chat' },
-    { id: 'analytics', label: 'Analytics', href: '/analytics' },
-    { id: 'settings', label: 'Settings', href: '/settings' }
+    { id: 'dashboard', label: 'Overview', href: '/overview', icon: Home, description: 'System overview and quick stats' },
+    { id: 'agents', label: 'AI Agents', href: '/agents', icon: Bot, description: 'Manage and monitor AI agents' },
+    { id: 'mission-control', label: 'Mission Control', href: '/mission-control', icon: Shield, description: 'Security and traffic monitoring' },
+    { id: 'analytics', label: 'Analytics', href: '/analytics', icon: BarChart3, description: 'Detailed analytics and reports' },
+    { id: 'settings', label: 'Settings', href: '/settings', icon: Settings, description: 'System configuration' }
   ]
 
   return (
@@ -70,20 +78,25 @@ export default function Navigation({
             <PlutoLogo size={40} />
             
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-6">
-              {navigationItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => router.push(item.href)}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    pathname === item.href
-                      ? 'bg-purple-100 text-purple-700'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                  }`}
-                >
-                  {item.label}
-                </button>
-              ))}
+            <div className="hidden md:flex items-center space-x-1">
+              {navigationItems.map((item) => {
+                const IconComponent = item.icon
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => router.push(item.href)}
+                    className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                      pathname === item.href
+                        ? 'bg-gradient-to-r from-purple-100 to-blue-100 text-purple-700 shadow-sm'
+                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                    }`}
+                    title={item.description}
+                  >
+                    <IconComponent className="h-4 w-4" />
+                    <span>{item.label}</span>
+                  </button>
+                )
+              })}
             </div>
           </div>
 
@@ -207,22 +220,29 @@ export default function Navigation({
               </div>
               
               {/* Mobile Navigation Items */}
-              {navigationItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => {
-                    router.push(item.href)
-                    setMobileMenuOpen(false)
-                  }}
-                  className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium ${
-                    pathname === item.href
-                      ? 'bg-purple-100 text-purple-700'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                  }`}
-                >
-                  {item.label}
-                </button>
-              ))}
+              {navigationItems.map((item) => {
+                const IconComponent = item.icon
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => {
+                      router.push(item.href)
+                      setMobileMenuOpen(false)
+                    }}
+                    className={`flex items-center space-x-3 w-full text-left px-3 py-3 rounded-lg text-base font-medium ${
+                      pathname === item.href
+                        ? 'bg-gradient-to-r from-purple-100 to-blue-100 text-purple-700'
+                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                    }`}
+                  >
+                    <IconComponent className="h-5 w-5" />
+                    <div>
+                      <div>{item.label}</div>
+                      <div className="text-xs text-gray-500">{item.description}</div>
+                    </div>
+                  </button>
+                )
+              })}
             </div>
           </div>
         )}

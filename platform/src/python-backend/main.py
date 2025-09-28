@@ -28,6 +28,9 @@ from modules.auth.auth_service import auth_service
 # Import AI modules
 from modules.ai.routes import router as ai_router
 
+# Import Mission Control modules
+from modules.mission_control.routes import router as mission_control_router
+
 app = FastAPI(
     title="Enterprise AI Control Plane",
     description="Monitor, secure, and manage your AI usage in real time",
@@ -39,6 +42,9 @@ app.include_router(auth_router)
 
 # Include AI routes
 app.include_router(ai_router)
+
+# Include Mission Control routes
+app.include_router(mission_control_router)
 
 # Enable CORS for frontend
 app.add_middleware(

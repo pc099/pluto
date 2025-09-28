@@ -105,12 +105,22 @@ export default function Home() {
     )
   }
 
+  // Redirect to overview page for better UX
+  if (pathname === '/' && user) {
+    router.push('/overview')
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
+      </div>
+    )
+  }
+
   // Only show dashboard on the root path
   if (pathname !== '/') {
     return null // Let Next.js handle routing to other pages
   }
 
-  // Show dashboard
+  // Show simplified dashboard for root path (fallback)
   return (
     <>
       <Navigation
@@ -122,15 +132,40 @@ export default function Home() {
         currentPage="dashboard"
       />
       
-      <DashboardLayout
-        activeTab={activeTab}
-        onTabChange={(tab) => setActiveTab(tab as typeof activeTab)}
-      >
-        <div className="p-8">
-          {renderMainContent()}
+      <div className="min-h-screen bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="text-center">
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">Welcome to Pluto AI Platform</h1>
+            <p className="text-gray-600 mb-8">Your comprehensive AI agent management and monitoring platform</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+              <div className="p-6 bg-white rounded-lg shadow-sm border">
+                <Bot className="h-8 w-8 text-purple-600 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold mb-2">AI Agents</h3>
+                <p className="text-gray-600 mb-4">Create and manage your AI agents</p>
+                <Button onClick={() => router.push('/agents')} className="w-full">
+                  Manage Agents
+                </Button>
+              </div>
+              <div className="p-6 bg-white rounded-lg shadow-sm border">
+                <Shield className="h-8 w-8 text-blue-600 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold mb-2">Mission Control</h3>
+                <p className="text-gray-600 mb-4">Monitor system health and security</p>
+                <Button onClick={() => router.push('/mission-control')} className="w-full">
+                  View Monitoring
+                </Button>
+              </div>
+              <div className="p-6 bg-white rounded-lg shadow-sm border">
+                <BarChart3 className="h-8 w-8 text-green-600 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold mb-2">Analytics</h3>
+                <p className="text-gray-600 mb-4">View detailed reports and insights</p>
+                <Button onClick={() => router.push('/analytics')} className="w-full">
+                  View Analytics
+                </Button>
+              </div>
+            </div>
+          </div>
         </div>
-      </DashboardLayout>
-
+      </div>
     </>
   )
 
