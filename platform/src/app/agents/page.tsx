@@ -179,7 +179,7 @@ export default function AgentsPage() {
   const handleCreateAgent = async (agentData: {
     name: string
     description: string
-    type: string
+    type: 'chat' | 'assistant' | 'automation' | 'analysis'
     model: string
     provider: string
     capabilities: string[]

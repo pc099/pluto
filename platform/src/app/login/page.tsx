@@ -9,12 +9,12 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (authService.isAuthenticated()) {
-      router.push('/') // Redirect to home if already authenticated
+      router.push('/overview') // Redirect to overview if already authenticated
     }
   }, [router])
 
   const handleAuthSuccess = () => {
-    router.push('/') // Redirect to home after successful login/registration
+    router.push('/overview') // Redirect to overview after successful login/registration
   }
 
   return <LoginForm onAuthSuccess={handleAuthSuccess} />

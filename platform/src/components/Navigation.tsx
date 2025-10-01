@@ -25,7 +25,9 @@ import {
   Home,
   Bot,
   Shield,
-  BarChart3
+  BarChart3,
+  Lock,
+  FileCheck
 } from 'lucide-react'
 import PlutoLogo from '@/components/PlutoLogo'
 
@@ -61,8 +63,10 @@ export default function Navigation({
     { id: 'dashboard', label: 'Overview', href: '/overview', icon: Home, description: 'System overview and quick stats' },
     { id: 'agents', label: 'AI Agents', href: '/agents', icon: Bot, description: 'Manage and monitor AI agents' },
     { id: 'mission-control', label: 'Mission Control', href: '/mission-control', icon: Shield, description: 'Security and traffic monitoring' },
-    { id: 'analytics', label: 'Analytics', href: '/analytics', icon: BarChart3, description: 'Detailed analytics and reports' },
-    { id: 'settings', label: 'Settings', href: '/settings', icon: Settings, description: 'System configuration' }
+    { id: 'security', label: 'Security', href: '/security', icon: Lock, description: 'Security threats and protection' },
+    { id: 'compliance', label: 'Compliance', href: '/compliance', icon: FileCheck, description: 'Regulatory compliance monitoring' },
+    { id: 'policies', label: 'Policies', href: '/policies', icon: Settings, description: 'Policy management' },
+    { id: 'analytics', label: 'Analytics', href: '/analytics', icon: BarChart3, description: 'Detailed analytics and reports' }
   ]
 
   return (

@@ -72,7 +72,7 @@ export default function OverviewPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation 
-        user={user}
+        user={user || undefined}
         currentPage="dashboard"
         onAuth={handleAuth}
         onLogout={handleLogout}

@@ -328,20 +328,22 @@ export default function MissionControlDashboard() {
                 <div className="space-y-3">
                   <div className="flex justify-between">
                     <span>Total Devices:</span>
-                    <span className="font-medium">{deviceStats?.statistics?.total_devices || 0}</span>
+                    <span className="font-medium">{(deviceStats?.statistics?.total_devices as number) || 0}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Active Devices:</span>
-                    <span className="font-medium">{deviceStats?.statistics?.active_devices || 0}</span>
+                    <span className="font-medium">{(deviceStats?.statistics?.active_devices as number) || 0}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Device Types:</span>
                     <div className="text-right">
-                      {deviceStats?.statistics?.device_types && Object.entries(deviceStats.statistics.device_types).map(([type, count]) => (
-                        <div key={type} className="text-sm">
-                          {type}: {count as number}
-                        </div>
-                      ))}
+                      {deviceStats?.statistics?.device_types && typeof deviceStats.statistics.device_types === 'object' ? (
+                        Object.entries(deviceStats.statistics.device_types as Record<string, number>).map(([type, count]) => (
+                          <div key={type} className="text-sm">
+                            {type}: {count}
+                          </div>
+                        ))
+                      ) : null}
                     </div>
                   </div>
                 </div>

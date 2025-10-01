@@ -57,9 +57,9 @@ export default function LoginForm({ onAuthSuccess }: LoginFormProps) {
 
     try {
       await authService.register(registerData)
-      setSuccess('Registration successful!')
+      // Redirect directly to overview for seamless experience
+      router.push('/overview')
       onAuthSuccess?.()
-      router.push('/')
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Registration failed')
     } finally {
@@ -201,12 +201,6 @@ export default function LoginForm({ onAuthSuccess }: LoginFormProps) {
             )}
           </CardContent>
         </Card>
-
-        <div className="text-center">
-          <p className="text-sm text-gray-600">
-            Demo credentials: admin@pluto.ai / admin123
-          </p>
-        </div>
       </div>
     </div>
   )
