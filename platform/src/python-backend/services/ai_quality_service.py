@@ -67,7 +67,8 @@ class AIQualityAnalyzer:
             ]
         }
 
-                                      model: str, provider: str, use_advanced: bool = True) -> Dict[str, Any]:
+    async def analyze_quality(self, request_content: str, response_content: str,
+                              model: str, provider: str, use_advanced: bool = True) -> Dict[str, Any]:
         """Comprehensive AI response quality analysis"""
         
         analysis_start = datetime.utcnow()
