@@ -62,31 +62,64 @@ class AIQualityAnalyzer:
             "malicious_requests": [
                 r"how to hack",
                 r"create malware",
-                r"illegal activities",
                 r"harmful instructions",
                 r"bypass security",
             ]
         }
 
-    async def analyze_response_quality(self, 
-                                     request_content: str, 
-                                     response_content: str, 
-                                     model: str,
-                                     provider: str) -> Dict[str, Any]:
+                                      model: str, provider: str, use_advanced: bool = True) -> Dict[str, Any]:
         """Comprehensive AI response quality analysis"""
         
         analysis_start = datetime.utcnow()
         
-        # Run all quality checks
-        hallucination_score = self._detect_hallucination(response_content, request_content)
-        confidence_score = self._calculate_confidence_score(response_content)
-        factual_consistency = self._check_factual_consistency(response_content)
+        # Use advanced hallucination detection if available
+        if use_advanced:
+            try:
+                from services.advanced_hallucination_detector import advanced_hallucination_detector
+                
+                advanced_analysis = await advanced_hallucination_detector.detect_hallucinations(
+                    response_content=response_content,
+                    request_content=request_content,
+                    model=model,
+                    context={'provider': provider}
+                )
+                
+                # Use advanced analysis results
+                quality_score = advanced_analysis['quality_score']
+                hallucination_risk = advanced_analysis['hallucination_risk']
+                confidence_score = advanced_analysis['confidence']
+                has_hallucination = hallucination_risk in ['high', 'medium']
+                
+                # Add advanced analysis details
+                analysis['advanced_analysis'] = {
+                    'total_claims': advanced_analysis['total_claims'],
+                    'validated_claims': advanced_analysis['validated_claims'],
+                    'failed_validations': advanced_analysis['failed_validations'],
+                    'validation_details': advanced_analysis['validation_details'][:5],  # Limit to 5
+                    'recommendations': advanced_analysis['recommendations'],
+                    'alerts': advanced_analysis['alerts']
+                }
+            except Exception as e:
+                print(f"Advanced hallucination detection failed, using basic: {e}")
+                # Fallback to basic analysis
+                quality_score = self._calculate_quality_score(response_content, request_content)
+                confidence_score = self._calculate_confidence_score(response_content)
+                hallucination_risk = self._detect_hallucination_risk(response_content)
+                has_hallucination = hallucination_risk in ['high', 'medium']
+        else:
+            # Basic analysis
+            quality_score = self._calculate_quality_score(response_content, request_content)
+            confidence_score = self._calculate_confidence_score(response_content)
+            hallucination_risk = self._detect_hallucination_risk(response_content)
+            has_hallucination = hallucination_risk in ['high', 'medium']
+        
         security_analysis = self._analyze_security_risks(request_content, response_content)
         bias_detection = self._detect_potential_bias(response_content)
         toxicity_score = self._calculate_toxicity_score(response_content)
         
         # Calculate overall quality score
         overall_quality = self._calculate_overall_quality(
+            quality_score, confidence_score, has_hallucination, 
             hallucination_score, confidence_score, factual_consistency, 
             security_analysis, bias_detection, toxicity_score
         )

@@ -27,7 +27,8 @@ import {
   Shield,
   BarChart3,
   Lock,
-  FileCheck
+  FileCheck,
+  MessageSquare
 } from 'lucide-react'
 import PlutoLogo from '@/components/PlutoLogo'
 
@@ -61,6 +62,7 @@ export default function Navigation({
 
   const navigationItems = [
     { id: 'dashboard', label: 'Overview', href: '/overview', icon: Home, description: 'System overview and quick stats' },
+    { id: 'chat', label: 'AI Chat', href: '/chat', icon: MessageSquare, description: 'Chat with AI models' },
     { id: 'agents', label: 'AI Agents', href: '/agents', icon: Bot, description: 'Manage and monitor AI agents' },
     { id: 'mission-control', label: 'Mission Control', href: '/mission-control', icon: Shield, description: 'Security and traffic monitoring' },
     { id: 'security', label: 'Security', href: '/security', icon: Lock, description: 'Security threats and protection' },

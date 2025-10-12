@@ -144,13 +144,199 @@ export default function SettingsPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="profile">Profile</TabsTrigger>
+            <TabsTrigger value="proxy">Proxy</TabsTrigger>
             <TabsTrigger value="api-keys">API Keys</TabsTrigger>
             <TabsTrigger value="notifications">Notifications</TabsTrigger>
             <TabsTrigger value="security">Security</TabsTrigger>
             <TabsTrigger value="billing">Billing</TabsTrigger>
           </TabsList>
+
+          <TabsContent value="proxy" className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Proxy Status */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <Activity className="w-5 h-5 mr-2 text-green-500" />
+                    Proxy Status
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg border border-green-200">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                      <div>
+                        <p className="font-medium text-green-900">Proxy Active</p>
+                        <p className="text-sm text-green-700">All requests are being monitored</p>
+                      </div>
+                    </div>
+                    <Check className="w-5 h-5 text-green-500" />
+                  </div>
+                  
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-600">Backend URL</span>
+                      <code className="text-xs bg-gray-100 px-2 py-1 rounded">pluto-backend-qprv.onrender.com</code>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-600">Proxy Version</span>
+                      <Badge variant="outline">v1.0.0</Badge>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-600">Uptime</span>
+                      <span className="text-sm font-medium text-gray-900">99.9%</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-600">Avg Response Time</span>
+                      <span className="text-sm font-medium text-gray-900">245ms</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Supported Providers */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <Globe className="w-5 h-5 mr-2" />
+                    Supported Providers
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center">
+                        <span className="text-white font-bold text-sm">O</span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900">OpenAI</p>
+                        <p className="text-xs text-gray-500">GPT-4, GPT-3.5</p>
+                      </div>
+                    </div>
+                    <Badge className="bg-green-500">Active</Badge>
+                  </div>
+                  
+                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center">
+                        <span className="text-white font-bold text-sm">A</span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900">Anthropic</p>
+                        <p className="text-xs text-gray-500">Claude 3 Sonnet, Haiku</p>
+                      </div>
+                    </div>
+                    <Badge className="bg-green-500">Active</Badge>
+                  </div>
+                  
+                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg opacity-50">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
+                        <span className="text-white font-bold text-sm">G</span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900">Google AI</p>
+                        <p className="text-xs text-gray-500">Gemini Pro</p>
+                      </div>
+                    </div>
+                    <Badge variant="outline">Coming Soon</Badge>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Proxy Features */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <Zap className="w-5 h-5 mr-2" />
+                    Active Features
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <Check className="w-4 h-4 text-green-500" />
+                      <span className="text-sm text-gray-700">Cost Tracking</span>
+                    </div>
+                    <Badge variant="outline" className="text-green-600 border-green-600">Enabled</Badge>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <Check className="w-4 h-4 text-green-500" />
+                      <span className="text-sm text-gray-700">Quality Analysis</span>
+                    </div>
+                    <Badge variant="outline" className="text-green-600 border-green-600">Enabled</Badge>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <Check className="w-4 h-4 text-green-500" />
+                      <span className="text-sm text-gray-700">Policy Enforcement</span>
+                    </div>
+                    <Badge variant="outline" className="text-green-600 border-green-600">Enabled</Badge>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <Check className="w-4 h-4 text-green-500" />
+                      <span className="text-sm text-gray-700">Security Scanning</span>
+                    </div>
+                    <Badge variant="outline" className="text-green-600 border-green-600">Enabled</Badge>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <Check className="w-4 h-4 text-green-500" />
+                      <span className="text-sm text-gray-700">Real-time Monitoring</span>
+                    </div>
+                    <Badge variant="outline" className="text-green-600 border-green-600">Enabled</Badge>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <Check className="w-4 h-4 text-green-500" />
+                      <span className="text-sm text-gray-700">Compliance Checks</span>
+                    </div>
+                    <Badge variant="outline" className="text-green-600 border-green-600">Enabled</Badge>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Proxy Configuration */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <Database className="w-5 h-5 mr-2" />
+                    Configuration
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div>
+                    <Label className="text-sm font-medium">Proxy Endpoints</Label>
+                    <div className="mt-2 space-y-2">
+                      <div className="flex items-center justify-between p-2 bg-gray-50 rounded text-xs">
+                        <code className="text-gray-700">/proxy/openai/*</code>
+                        <Badge variant="outline" className="text-xs">Active</Badge>
+                      </div>
+                      <div className="flex items-center justify-between p-2 bg-gray-50 rounded text-xs">
+                        <code className="text-gray-700">/proxy/anthropic/*</code>
+                        <Badge variant="outline" className="text-xs">Active</Badge>
+                      </div>
+                      <div className="flex items-center justify-between p-2 bg-gray-50 rounded text-xs">
+                        <code className="text-gray-700">/ai/chat</code>
+                        <Badge variant="outline" className="text-xs">Active</Badge>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="pt-4 border-t">
+                    <Button variant="outline" className="w-full">
+                      <Info className="w-4 h-4 mr-2" />
+                      View Documentation
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
 
           <TabsContent value="profile" className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

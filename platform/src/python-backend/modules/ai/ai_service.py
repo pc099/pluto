@@ -12,25 +12,55 @@ class AIService:
         self.anthropic_api_key = os.getenv("ANTHROPIC_API_KEY")
         
     async def route_request(self, request: ChatRequest, user_preferences: Dict[str, Any] = None) -> RoutingDecision:
-        """Simple routing logic - will be enhanced with ML later"""
+        """ML-based routing logic with intelligent provider selection"""
         
-        # For now, default to OpenAI
-        # TODO: Implement ML-based routing
-        return RoutingDecision(
-            provider=AIProvider.OPENAI,
-            model=request.model or "gpt-3.5-turbo",
-            reason="Default routing to OpenAI",
-            estimated_cost=0.001,
-            confidence=0.8
-        )
+        user_preferences = user_preferences or {}
+        user_id = user_preferences.get('user_id', 'anonymous')
+        
+        # Determine routing strategy
+        strategy = getattr(request, 'routing_strategy', 'balanced')
+        if not strategy:
+            strategy = 'balanced'
+        
+        try:
+            # Use ML routing engine
+            from services.ml_routing_engine import ml_routing_engine
+            
+            routing_decision = await ml_routing_engine.route_request(
+                request=request.dict(),
+                user_id=user_id,
+                strategy=strategy,
+                context={
+                    'budget_remaining': user_preferences.get('budget_remaining', 1.0),
+                    'min_quality': getattr(request, 'min_quality', 7.0)
+                }
+            )
+            
+            return RoutingDecision(
+                provider=AIProvider(routing_decision['provider']),
+                model=routing_decision['model'],
+                reason=routing_decision['reason'],
+                estimated_cost=routing_decision['predicted_cost'],
+                confidence=routing_decision['confidence']
+            )
+        except Exception as e:
+            print(f"ML routing failed, using fallback: {e}")
+            # Fallback to simple routing
+            return RoutingDecision(
+                provider=AIProvider.OPENAI,
+                model=request.model or "gpt-3.5-turbo",
+                reason="Fallback routing (ML unavailable)",
+                estimated_cost=0.001,
+                confidence=0.5
+            )
     
-    async def execute_request(self, request: ChatRequest, routing_decision: RoutingDecision) -> ChatResponse:
-        """Execute AI request based on routing decision"""
+    async def execute_request(self, request: ChatRequest, routing_decision: RoutingDecision, user_id: str = None, team_id: str = None) -> ChatResponse:
+        """Execute AI request based on routing decision using proxy"""
         
         if routing_decision.provider == AIProvider.OPENAI:
-            return await self._call_openai(request, routing_decision)
+            return await self._call_openai_proxy(request, routing_decision, user_id, team_id)
         elif routing_decision.provider == AIProvider.ANTHROPIC:
-            return await self._call_anthropic(request, routing_decision)
+            return await self._call_anthropic_proxy(request, routing_decision, user_id, team_id)
         else:
             raise ValueError(f"Unsupported provider: {routing_decision.provider}")
     
@@ -163,6 +193,131 @@ class AIService:
                     
         except Exception as e:
             raise Exception(f"Failed to call Anthropic: {str(e)}")
+    
+    async def _call_openai_proxy(self, request: ChatRequest, routing: RoutingDecision, user_id: str = None, team_id: str = None) -> ChatResponse:
+        """Call OpenAI through our proxy for monitoring and analysis"""
+        from proxy.ai_providers import PROVIDERS
+        
+        start_time = time.time()
+        
+        # Prepare request data
+        request_data = {
+            "model": routing.model,
+            "messages": [{"role": msg.role.value, "content": msg.content} for msg in request.messages],
+            "temperature": request.temperature or 0.7,
+            "max_tokens": request.max_tokens or 1000
+        }
+        
+        headers = {
+            "Authorization": f"Bearer {self.openai_api_key}",
+            "Content-Type": "application/json"
+        }
+        
+        try:
+            # Use the proxy
+            result = await PROVIDERS["openai"].proxy_request(
+                endpoint="chat/completions",
+                request_data=request_data,
+                headers=headers,
+                user_id=user_id,
+                team_id=team_id
+            )
+            
+            if result["success"]:
+                response_data = result["data"]
+                duration = time.time() - start_time
+                
+                # Extract usage and cost info
+                usage = response_data.get("usage", {})
+                cost_info = result.get("cost_info", {})
+                
+                return ChatResponse(
+                    id=response_data.get("id", "unknown"),
+                    created=response_data.get("created", int(time.time())),
+                    model=response_data.get("model", routing.model),
+                    choices=response_data.get("choices", []),
+                    usage={
+                        "prompt_tokens": usage.get("prompt_tokens", 0),
+                        "completion_tokens": usage.get("completion_tokens", 0),
+                        "total_tokens": usage.get("total_tokens", 0)
+                    },
+                    cost=cost_info.get("total_cost", 0),
+                    duration=duration,
+                    provider="openai"
+                )
+            else:
+                raise Exception(result.get("error", "Proxy request failed"))
+                
+        except Exception as e:
+            raise Exception(f"Failed to call OpenAI proxy: {str(e)}")
+    
+    async def _call_anthropic_proxy(self, request: ChatRequest, routing: RoutingDecision, user_id: str = None, team_id: str = None) -> ChatResponse:
+        """Call Anthropic through our proxy for monitoring and analysis"""
+        from proxy.ai_providers import PROVIDERS
+        
+        start_time = time.time()
+        
+        # Prepare request data
+        request_data = {
+            "model": routing.model,
+            "messages": [{"role": msg.role.value, "content": msg.content} for msg in request.messages],
+            "max_tokens": request.max_tokens or 1000,
+            "temperature": request.temperature or 0.7
+        }
+        
+        headers = {
+            "x-api-key": self.anthropic_api_key,
+            "anthropic-version": "2023-06-01",
+            "Content-Type": "application/json"
+        }
+        
+        try:
+            # Use the proxy
+            result = await PROVIDERS["anthropic"].proxy_request(
+                endpoint="messages",
+                request_data=request_data,
+                headers=headers,
+                user_id=user_id,
+                team_id=team_id
+            )
+            
+            if result["success"]:
+                response_data = result["data"]
+                duration = time.time() - start_time
+                
+                # Extract usage and cost info
+                usage = response_data.get("usage", {})
+                cost_info = result.get("cost_info", {})
+                
+                # Convert Anthropic response to OpenAI format
+                choices = [{
+                    "index": 0,
+                    "message": {
+                        "role": "assistant",
+                        "content": response_data.get("content", [{}])[0].get("text", "")
+                    },
+                    "finish_reason": "stop"
+                }]
+                
+                return ChatResponse(
+                    id=response_data.get("id", "unknown"),
+                    created=int(time.time()),
+                    model=response_data.get("model", routing.model),
+                    choices=choices,
+                    usage={
+                        "prompt_tokens": usage.get("input_tokens", 0),
+                        "completion_tokens": usage.get("output_tokens", 0),
+                        "total_tokens": usage.get("input_tokens", 0) + usage.get("output_tokens", 0)
+                    },
+                    cost=cost_info.get("total_cost", 0),
+                    duration=duration,
+                    provider="anthropic"
+                )
+            else:
+                raise Exception(result.get("error", "Proxy request failed"))
+                
+        except Exception as e:
+            raise Exception(f"Failed to call Anthropic proxy: {str(e)}")
 
 # Create singleton instance
 ai_service = AIService()

@@ -45,8 +45,13 @@ async def chat(
             "preferences": {}
         })
         
-        # Execute request
-        response = await ai_service.execute_request(request, routing_decision)
+        # Execute request through proxy with user context
+        response = await ai_service.execute_request(
+            request, 
+            routing_decision,
+            user_id=user.id,
+            team_id=user.organization_id
+        )
         
         # Update user quota
         tokens_used = response.usage.get("total_tokens", 0)
