@@ -2,7 +2,7 @@
 import React from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { 
   DropdownMenu, 
@@ -77,7 +77,6 @@ export default function TopBar({
                 <DropdownMenuTrigger asChild>
                   <button className="flex items-center space-x-3 p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
                     <Avatar className="h-9 w-9 ring-2 ring-purple-100 hover:ring-purple-200 transition-all">
-                      <AvatarImage src={user.avatar_url || undefined} alt={user.first_name} />
                       <AvatarFallback className="bg-gradient-to-br from-purple-500 to-blue-500 text-white text-sm font-semibold">
                         {getInitials(`${user.first_name} ${user.last_name}`)}
                       </AvatarFallback>
