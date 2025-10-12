@@ -1,14 +1,13 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import AppLayout from '@/components/AppLayout'
-import PolicyManagementDashboard from '@/components/PolicyManagementDashboard'
+import Navigation from '@/components/Navigation'
+import UserProfile from '@/components/UserProfile'
 import { authService, User } from '@/lib/auth'
 
-export default function PoliciesPage() {
+export default function ProfilePage() {
   const router = useRouter()
   const [user, setUser] = useState<User | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -23,7 +22,6 @@ export default function PoliciesPage() {
       } else {
         router.push('/login')
       }
-      setIsLoading(false)
     }
     checkAuth()
   }, [router])
@@ -37,15 +35,17 @@ export default function PoliciesPage() {
     router.push('/login')
   }
 
-  const handleProfile = () => {
-    router.push('/')
+  const updateUser = async (updates: Partial<User>) => {
+    if (!user) return
+    
+    const updatedUser = { ...user, ...updates }
+    setUser(updatedUser)
+    
+    // In a real app, you would save to backend here
+    console.log('User updated:', updatedUser)
   }
 
-  const handleSettings = () => {
-    router.push('/settings')
-  }
-
-  if (isLoading) {
+  if (!user) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
@@ -54,15 +54,17 @@ export default function PoliciesPage() {
   }
 
   return (
-    <AppLayout 
-      user={user || undefined}
-      onAuth={handleAuth}
-      onLogout={handleLogout}
-    >
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <PolicyManagementDashboard />
-      </div>
-    </AppLayout>
+    <>
+      <Navigation
+        user={user}
+        onAuth={handleAuth}
+        onLogout={handleLogout}
+      />
+      <UserProfile
+        user={user}
+        onUpdate={updateUser}
+        onLogout={handleLogout}
+      />
+    </>
   )
 }

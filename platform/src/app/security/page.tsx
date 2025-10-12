@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import Navigation from '@/components/Navigation'
+import AppLayout from '@/components/AppLayout'
 import { authService, User } from '@/lib/auth'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -67,12 +67,11 @@ export default function SecurityPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navigation 
-        user={user || undefined}
-        onAuth={handleAuth}
-        onLogout={handleLogout}
-      />
+    <AppLayout 
+      user={user || undefined}
+      onAuth={handleAuth}
+      onLogout={handleLogout}
+    >
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
@@ -288,6 +287,6 @@ export default function SecurityPage() {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </AppLayout>
   )
 }

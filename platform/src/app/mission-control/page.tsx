@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import Navigation from '@/components/Navigation'
+import AppLayout from '@/components/AppLayout'
 import MissionControlDashboard from '@/components/MissionControlDashboard'
 import { authService, User } from '@/lib/auth'
 
@@ -52,12 +52,11 @@ export default function MissionControlPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navigation 
-        user={user}
-        onAuth={handleAuth}
-        onLogout={handleLogout}
-      />
+    <AppLayout 
+      user={user}
+      onAuth={handleAuth}
+      onLogout={handleLogout}
+    >
       
       {/* Header */}
       <div className="bg-white/80 backdrop-blur-md border-b border-gray-200">
@@ -74,6 +73,6 @@ export default function MissionControlPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <MissionControlDashboard />
       </div>
-    </div>
+    </AppLayout>
   )
 }

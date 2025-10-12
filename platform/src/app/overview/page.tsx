@@ -1,11 +1,12 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import Navigation from '@/components/Navigation'
+import AppLayout from '@/components/AppLayout'
 import { authService, User } from '@/lib/auth'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { Progress } from '@/components/ui/progress'
 import { 
   Activity, 
   Bot, 
@@ -18,7 +19,11 @@ import {
   Plus,
   ArrowRight,
   DollarSign,
-  Server
+  Server,
+  Brain,
+  Target,
+  Clock,
+  AlertTriangle
 } from 'lucide-react'
 
 export default function OverviewPage() {
@@ -70,12 +75,11 @@ export default function OverviewPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navigation 
-        user={user || undefined}
-        onAuth={handleAuth}
-        onLogout={handleLogout}
-      />
+    <AppLayout 
+      user={user || undefined}
+      onAuth={handleAuth}
+      onLogout={handleLogout}
+    >
       
       {/* Header */}
       <div className="bg-white/80 backdrop-blur-md border-b border-gray-200">
@@ -396,6 +400,161 @@ export default function OverviewPage() {
           </CardContent>
         </Card>
       </div>
-    </div>
+
+      {/* ML Routing Metrics Section */}
+      <div className="mt-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+          <Brain className="h-6 w-6 mr-2 text-purple-600" />
+          ML-Based Routing Intelligence
+        </h2>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Routing Performance */}
+          <Card className="border-purple-200">
+            <CardHeader>
+              <CardTitle className="flex items-center text-base">
+                <Target className="h-5 w-5 mr-2 text-purple-600" />
+                Routing Accuracy
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div>
+                  <div className="flex justify-between text-sm mb-2">
+                    <span className="text-gray-600">Cost Optimization</span>
+                    <span className="font-semibold text-green-600">94.2%</span>
+                  </div>
+                  <Progress value={94.2} className="h-2" />
+                </div>
+                <div>
+                  <div className="flex justify-between text-sm mb-2">
+                    <span className="text-gray-600">Quality Match</span>
+                    <span className="font-semibold text-blue-600">91.8%</span>
+                  </div>
+                  <Progress value={91.8} className="h-2" />
+                </div>
+                <div>
+                  <div className="flex justify-between text-sm mb-2">
+                    <span className="text-gray-600">Latency Target</span>
+                    <span className="font-semibold text-purple-600">96.5%</span>
+                  </div>
+                  <Progress value={96.5} className="h-2" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Provider Distribution */}
+          <Card className="border-blue-200">
+            <CardHeader>
+              <CardTitle className="flex items-center text-base">
+                <Server className="h-5 w-5 mr-2 text-blue-600" />
+                Provider Distribution
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <div className="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+                    <span className="text-sm text-gray-600">OpenAI</span>
+                  </div>
+                  <span className="text-sm font-semibold">58.3%</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <div className="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
+                    <span className="text-sm text-gray-600">Anthropic</span>
+                  </div>
+                  <span className="text-sm font-semibold">41.7%</span>
+                </div>
+                <div className="pt-3 border-t">
+                  <div className="text-xs text-gray-500">Avg. Routing Time</div>
+                  <div className="text-lg font-bold text-gray-900">23ms</div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Routing Strategies */}
+          <Card className="border-orange-200">
+            <CardHeader>
+              <CardTitle className="flex items-center text-base">
+                <Zap className="h-5 w-5 mr-2 text-orange-600" />
+                Active Strategies
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between p-2 bg-green-50 rounded">
+                  <span className="text-sm font-medium">Cost-Optimized</span>
+                  <Badge variant="secondary" className="bg-green-100 text-green-700">42%</Badge>
+                </div>
+                <div className="flex items-center justify-between p-2 bg-blue-50 rounded">
+                  <span className="text-sm font-medium">Balanced</span>
+                  <Badge variant="secondary" className="bg-blue-100 text-blue-700">35%</Badge>
+                </div>
+                <div className="flex items-center justify-between p-2 bg-purple-50 rounded">
+                  <span className="text-sm font-medium">Quality-First</span>
+                  <Badge variant="secondary" className="bg-purple-100 text-purple-700">18%</Badge>
+                </div>
+                <div className="flex items-center justify-between p-2 bg-orange-50 rounded">
+                  <span className="text-sm font-medium">Speed-First</span>
+                  <Badge variant="secondary" className="bg-orange-100 text-orange-700">5%</Badge>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+      {/* Hallucination Detection Metrics */}
+      <div className="mt-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+          <AlertTriangle className="h-6 w-6 mr-2 text-orange-600" />
+          Advanced Hallucination Detection
+        </h2>
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          <Card className="border-green-200">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium text-gray-600">Detection Rate</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-green-600">98.7%</div>
+              <p className="text-xs text-gray-500 mt-1">Accuracy in last 30 days</p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-blue-200">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium text-gray-600">Responses Analyzed</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-blue-600">12,847</div>
+              <p className="text-xs text-gray-500 mt-1">+23% from last month</p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-orange-200">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium text-gray-600">Issues Detected</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-orange-600">127</div>
+              <p className="text-xs text-gray-500 mt-1">0.99% hallucination rate</p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-purple-200">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium text-gray-600">Avg. Confidence</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-purple-600">94.3%</div>
+              <p className="text-xs text-gray-500 mt-1">High confidence scores</p>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </AppLayout>
   )
 }

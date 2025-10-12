@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import Navigation from '@/components/Navigation'
+import AppLayout from '@/components/AppLayout'
 import { 
   TrendingUp, 
   TrendingDown, 
@@ -166,11 +166,10 @@ export default function AnalyticsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navigation 
-        onAuth={() => {}}
-        onLogout={() => {}}
-      />
+    <AppLayout 
+      onAuth={() => {}}
+      onLogout={() => {}}
+    >
       {/* Header */}
       <div className="bg-white/80 backdrop-blur-md border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -460,6 +459,6 @@ export default function AnalyticsPage() {
           </TabsContent>
         </Tabs>
       </div>
-    </div>
+    </AppLayout>
   )
 }
