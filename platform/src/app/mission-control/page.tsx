@@ -55,11 +55,8 @@ export default function MissionControlPage() {
     <div className="min-h-screen bg-gray-50">
       <Navigation 
         user={user}
-        currentPage="mission-control"
         onAuth={handleAuth}
         onLogout={handleLogout}
-        onProfile={handleProfile}
-        onSettings={handleSettings}
       />
       
       {/* Header */}

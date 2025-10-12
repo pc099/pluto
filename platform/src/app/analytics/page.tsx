@@ -168,11 +168,8 @@ export default function AnalyticsPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation 
-        currentPage="analytics"
         onAuth={() => {}}
         onLogout={() => {}}
-        onProfile={() => {}}
-        onSettings={() => {}}
       />
       {/* Header */}
       <div className="bg-white/80 backdrop-blur-md border-b border-gray-200">

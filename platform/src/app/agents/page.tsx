@@ -253,11 +253,8 @@ export default function AgentsPage() {
     <div className="min-h-screen bg-gray-50">
       <Navigation 
         user={user}
-        currentPage="agents"
         onAuth={handleAuth}
         onLogout={handleLogout}
-        onProfile={handleProfile}
-        onSettings={handleSettings}
       />
       
       {/* Header */}

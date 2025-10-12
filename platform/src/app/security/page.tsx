@@ -70,11 +70,8 @@ export default function SecurityPage() {
     <div className="min-h-screen bg-gray-50">
       <Navigation 
         user={user || undefined}
-        currentPage="security"
         onAuth={handleAuth}
         onLogout={handleLogout}
-        onProfile={handleProfile}
-        onSettings={handleSettings}
       />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

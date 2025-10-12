@@ -55,21 +55,16 @@ export default function ChatPage() {
     <div className="min-h-screen bg-gray-50">
       <Navigation 
         user={user}
-        currentPage="chat"
         onAuth={handleAuth}
         onLogout={handleLogout}
-        onProfile={handleProfile}
-        onSettings={handleSettings}
       />
       
       {/* Header */}
       <div className="bg-white/80 backdrop-blur-md border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">AI Chat</h1>
-              <p className="text-gray-600 mt-1">Chat with AI models through our unified interface</p>
-            </div>
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">AI Chat</h1>
+            <p className="text-gray-600 mt-1">Chat with AI models through our unified interface</p>
           </div>
         </div>
       </div>

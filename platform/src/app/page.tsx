@@ -93,9 +93,6 @@ export default function Home() {
         user={user || undefined}
         onAuth={handleAuth}
         onLogout={handleLogout}
-        onProfile={handleProfile}
-        onSettings={handleSettings}
-        currentPage="profile"
       />
         <UserProfile
           user={user}
@@ -128,9 +125,6 @@ export default function Home() {
         user={user || undefined}
         onAuth={handleAuth}
         onLogout={handleLogout}
-        onProfile={handleProfile}
-        onSettings={handleSettings}
-        currentPage="dashboard"
       />
       
       <div className="min-h-screen bg-gray-50">
