@@ -13,7 +13,10 @@ import {
   ChevronLeft,
   ChevronRight,
   Zap,
-  Activity
+  Activity,
+  Globe,
+  Eye,
+  AlertTriangle
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -28,6 +31,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
 
   const mainNavigationItems = [
     { id: 'overview', label: 'Overview', href: '/overview', icon: Home, description: 'System overview' },
+    { id: 'gateway', label: 'AI Gateway', href: '/gateway', icon: Globe, description: 'Unified endpoint' },
     { id: 'chat', label: 'AI Chat', href: '/chat', icon: MessageSquare, description: 'Chat with AI' },
     { id: 'agents', label: 'Agents', href: '/agents', icon: Bot, description: 'AI agents' },
     { id: 'analytics', label: 'Analytics', href: '/analytics', icon: BarChart3, description: 'Usage analytics' },
@@ -35,6 +39,8 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
 
   const advancedNavigationItems = [
     { id: 'mission-control', label: 'Mission Control', href: '/mission-control', icon: Activity, description: 'Live monitoring' },
+    { id: 'pii-tracking', label: 'PII Tracking', href: '/pii-tracking', icon: Eye, description: 'PII detection' },
+    { id: 'hallucination', label: 'Hallucination Detection', href: '/hallucination-detection', icon: AlertTriangle, description: 'Fact verification' },
     { id: 'security', label: 'Security', href: '/security', icon: Lock, description: 'Security dashboard' },
     { id: 'compliance', label: 'Compliance', href: '/compliance', icon: FileCheck, description: 'Compliance tracking' },
     { id: 'policies', label: 'Policies', href: '/policies', icon: Shield, description: 'Policy management' },
