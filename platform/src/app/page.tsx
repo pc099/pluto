@@ -44,6 +44,13 @@ export default function Home() {
     checkAuth()
   }, [])
 
+  // Redirect to home if user is logged in and on root path
+  useEffect(() => {
+    if (pathname === '/' && user && !isLandingPage) {
+      router.push('/home')
+    }
+  }, [pathname, user, isLandingPage, router])
+
   const handleLogout = () => {
     authService.logout()
     setUser(null)
@@ -103,19 +110,18 @@ export default function Home() {
     )
   }
 
-  // Redirect to overview page for better UX
-  if (pathname === '/' && user) {
-    router.push('/overview')
+  // Only show dashboard on the root path
+  if (pathname !== '/') {
+    return null // Let Next.js handle routing to other pages
+  }
+
+  // Show loading while redirecting
+  if (pathname === '/' && user && !isLandingPage) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
       </div>
     )
-  }
-
-  // Only show dashboard on the root path
-  if (pathname !== '/') {
-    return null // Let Next.js handle routing to other pages
   }
 
   // Show simplified dashboard for root path (fallback)

@@ -12,7 +12,6 @@ import {
   Settings,
   ChevronLeft,
   ChevronRight,
-  Zap,
   Activity,
   Globe,
   Eye,
@@ -30,24 +29,27 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
   const pathname = usePathname()
 
   const mainNavigationItems = [
-    { id: 'overview', label: 'Overview', href: '/overview', icon: Home, description: 'System overview' },
-    { id: 'gateway', label: 'AI Gateway', href: '/gateway', icon: Globe, description: 'Unified endpoint' },
-    { id: 'chat', label: 'AI Chat', href: '/chat', icon: MessageSquare, description: 'Chat with AI' },
-    { id: 'agents', label: 'Agents', href: '/agents', icon: Bot, description: 'AI agents' },
-    { id: 'analytics', label: 'Analytics', href: '/analytics', icon: BarChart3, description: 'Usage analytics' },
+    { id: 'home', label: 'Home', href: '/home', icon: Home, description: 'Get started' },
   ]
 
-  const advancedNavigationItems = [
-    { id: 'mission-control', label: 'Mission Control', href: '/mission-control', icon: Activity, description: 'Live monitoring' },
-    { id: 'pii-tracking', label: 'PII Tracking', href: '/pii-tracking', icon: Eye, description: 'PII detection' },
-    { id: 'hallucination', label: 'Hallucination Detection', href: '/hallucination-detection', icon: AlertTriangle, description: 'Fact verification' },
+  const gatewayNavigationItems = [
+    { id: 'gateway-home', label: 'Gateway Home', href: '/gateway/home', icon: Globe, description: 'Gateway overview' },
+    { id: 'requests', label: 'Requests', href: '/requests', icon: Activity, description: 'Request logs' },
+    { id: 'analytics', label: 'Analytics', href: '/analytics', icon: BarChart3, description: 'Usage analytics' },
+    { id: 'pii-tracking', label: 'PII Detection', href: '/pii-tracking', icon: Eye, description: 'PII detection' },
     { id: 'security', label: 'Security', href: '/security', icon: Lock, description: 'Security dashboard' },
     { id: 'compliance', label: 'Compliance', href: '/compliance', icon: FileCheck, description: 'Compliance tracking' },
     { id: 'policies', label: 'Policies', href: '/policies', icon: Shield, description: 'Policy management' },
   ]
 
+  const agentsNavigationItems = [
+    { id: 'agents-home', label: 'Agents Home', href: '/agents/home', icon: Bot, description: 'Agents overview' },
+    { id: 'agents', label: 'My Agents', href: '/agents', icon: Bot, description: 'Manage agents' },
+    { id: 'chat', label: 'Playground', href: '/chat', icon: MessageSquare, description: 'Test agents' },
+  ]
+
   const isActive = (href: string) => {
-    if (href === '/overview' && pathname === '/') return true
+    if (href === '/home' && pathname === '/') return true
     return pathname === href
   }
 
@@ -78,11 +80,6 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
       <div className="flex flex-col h-full py-6 overflow-y-auto">
         {/* Main Navigation */}
         <div className="px-3 mb-6">
-          {!collapsed && (
-            <h3 className="px-3 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-              Main
-            </h3>
-          )}
           <nav className="space-y-1">
             {mainNavigationItems.map((item) => {
               const Icon = item.icon
@@ -117,18 +114,64 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
           </nav>
         </div>
 
-        {/* Advanced Navigation */}
+        {/* Gateway Section */}
         <div className="px-3 mb-6">
           {!collapsed && (
-            <h3 className="px-3 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-              Advanced
+            <h3 className="px-3 mb-2 text-xs font-semibold text-blue-600 uppercase tracking-wider flex items-center">
+              <Globe className="h-3 w-3 mr-1" />
+              Gateway
             </h3>
           )}
           {collapsed && (
             <div className="border-t border-gray-200 my-4"></div>
           )}
           <nav className="space-y-1">
-            {advancedNavigationItems.map((item) => {
+            {gatewayNavigationItems.map((item) => {
+              const Icon = item.icon
+              const active = isActive(item.href)
+              
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => handleNavigation(item.href)}
+                  className={cn(
+                    "w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-200",
+                    active
+                      ? "bg-blue-50 text-blue-700 shadow-sm"
+                      : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                  )}
+                  title={collapsed ? item.label : ''}
+                >
+                  <Icon className={cn(
+                    "flex-shrink-0",
+                    collapsed ? "h-5 w-5" : "h-5 w-5 mr-3",
+                    active ? "text-blue-600" : "text-gray-500"
+                  )} />
+                  {!collapsed && (
+                    <span className="flex-1 text-left">{item.label}</span>
+                  )}
+                  {!collapsed && active && (
+                    <div className="w-1.5 h-1.5 bg-blue-600 rounded-full"></div>
+                  )}
+                </button>
+              )
+            })}
+          </nav>
+        </div>
+
+        {/* Agents Section */}
+        <div className="px-3 mb-6">
+          {!collapsed && (
+            <h3 className="px-3 mb-2 text-xs font-semibold text-purple-600 uppercase tracking-wider flex items-center">
+              <Bot className="h-3 w-3 mr-1" />
+              Agents
+            </h3>
+          )}
+          {collapsed && (
+            <div className="border-t border-gray-200 my-4"></div>
+          )}
+          <nav className="space-y-1">
+            {agentsNavigationItems.map((item) => {
               const Icon = item.icon
               const active = isActive(item.href)
               

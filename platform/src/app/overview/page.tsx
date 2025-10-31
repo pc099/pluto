@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import AppLayout from '@/components/AppLayout'
+import OnboardingWizard from '@/components/OnboardingWizard'
 import { authService, User } from '@/lib/auth'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -30,6 +31,7 @@ export default function OverviewPage() {
   const router = useRouter()
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [showOnboarding, setShowOnboarding] = useState(false)
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -37,6 +39,11 @@ export default function OverviewPage() {
         const currentUser = await authService.getCurrentUser()
         if (currentUser) {
           setUser(currentUser)
+          // Show onboarding for new users (check if they've seen it before)
+          const hasSeenOnboarding = localStorage.getItem('pluto_onboarding_completed')
+          if (!hasSeenOnboarding) {
+            setShowOnboarding(true)
+          }
         } else {
           authService.logout()
           router.push('/login')
@@ -48,6 +55,15 @@ export default function OverviewPage() {
     }
     checkAuth()
   }, [router])
+
+  const handleOnboardingComplete = () => {
+    localStorage.setItem('pluto_onboarding_completed', 'true')
+    setShowOnboarding(false)
+  }
+
+  const handleOnboardingDismiss = () => {
+    setShowOnboarding(false)
+  }
 
   const handleLogout = () => {
     authService.logout()
@@ -80,6 +96,12 @@ export default function OverviewPage() {
       onAuth={handleAuth}
       onLogout={handleLogout}
     >
+      {showOnboarding && (
+        <OnboardingWizard 
+          onComplete={handleOnboardingComplete}
+          onDismiss={handleOnboardingDismiss}
+        />
+      )}
       
       {/* Header */}
       <div className="bg-white/80 backdrop-blur-md border-b border-gray-200">
