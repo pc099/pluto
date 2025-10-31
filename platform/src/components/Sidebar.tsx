@@ -35,6 +35,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
   const gatewayNavigationItems = [
     { id: 'gateway-home', label: 'Gateway Home', href: '/gateway/home', icon: Globe, description: 'Gateway overview' },
     { id: 'proxy', label: 'AI Proxy', href: '/gateway', icon: Globe, description: 'Organizational proxy' },
+    { id: 'gateway-requests', label: 'Traffic Logs', href: '/gateway/requests', icon: Activity, description: 'Live traffic monitoring' },
     { id: 'analytics', label: 'Analytics', href: '/analytics', icon: BarChart3, description: 'Usage analytics' },
     { id: 'pii-tracking', label: 'PII Detection', href: '/pii-tracking', icon: Eye, description: 'PII detection' },
     { id: 'policies', label: 'Policies', href: '/policies', icon: Shield, description: 'Policy management' },
@@ -45,7 +46,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
     { id: 'agents', label: 'My Agents', href: '/agents', icon: Bot, description: 'Manage agents' },
     { id: 'smart-routing', label: 'Smart Routing', href: '/agents/routing', icon: Activity, description: 'Multi-agent orchestration' },
     { id: 'chat', label: 'Playground', href: '/chat', icon: MessageSquare, description: 'Test agents' },
-    { id: 'requests', label: 'Requests', href: '/requests', icon: Activity, description: 'Agent execution logs' },
+    { id: 'agent-requests', label: 'Execution Logs', href: '/agents/requests', icon: Activity, description: 'Agent execution logs' },
     { id: 'hallucination', label: 'Hallucination Detection', href: '/hallucination-detection', icon: AlertTriangle, description: 'Verify agent outputs' },
   ]
 
