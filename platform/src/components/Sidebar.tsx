@@ -32,13 +32,6 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
     { id: 'home', label: 'Home', href: '/home', icon: Home, description: 'Get started' },
   ]
 
-  // Shared features (both Gateway and Agents)
-  const sharedNavigationItems = [
-    { id: 'requests', label: 'Requests', href: '/requests', icon: Activity, description: 'Request logs' },
-    { id: 'security', label: 'Security', href: '/security', icon: Lock, description: 'Security dashboard' },
-    { id: 'compliance', label: 'Compliance', href: '/compliance', icon: FileCheck, description: 'Compliance tracking' },
-  ]
-
   const gatewayNavigationItems = [
     { id: 'gateway-home', label: 'Gateway Home', href: '/gateway/home', icon: Globe, description: 'Gateway overview' },
     { id: 'proxy', label: 'AI Proxy', href: '/gateway', icon: Globe, description: 'Organizational proxy' },
@@ -52,7 +45,14 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
     { id: 'agents', label: 'My Agents', href: '/agents', icon: Bot, description: 'Manage agents' },
     { id: 'smart-routing', label: 'Smart Routing', href: '/agents/routing', icon: Activity, description: 'Multi-agent orchestration' },
     { id: 'chat', label: 'Playground', href: '/chat', icon: MessageSquare, description: 'Test agents' },
+    { id: 'requests', label: 'Requests', href: '/requests', icon: Activity, description: 'Agent execution logs' },
     { id: 'hallucination', label: 'Hallucination Detection', href: '/hallucination-detection', icon: AlertTriangle, description: 'Verify agent outputs' },
+  ]
+
+  // Shared features (both Gateway and Agents) - moved to end
+  const sharedNavigationItems = [
+    { id: 'security', label: 'Security', href: '/security', icon: Lock, description: 'Security dashboard' },
+    { id: 'compliance', label: 'Compliance', href: '/compliance', icon: FileCheck, description: 'Compliance tracking' },
   ]
 
   const isActive = (href: string) => {
@@ -114,51 +114,6 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
                   )}
                   {!collapsed && active && (
                     <div className="w-1.5 h-1.5 bg-purple-600 rounded-full"></div>
-                  )}
-                </button>
-              )
-            })}
-          </nav>
-        </div>
-
-        {/* Shared Features Section */}
-        <div className="px-3 mb-6">
-          {!collapsed && (
-            <h3 className="px-3 mb-2 text-xs font-semibold text-gray-600 uppercase tracking-wider flex items-center">
-              <Shield className="h-3 w-3 mr-1" />
-              Shared
-            </h3>
-          )}
-          {collapsed && (
-            <div className="border-t border-gray-200 my-4"></div>
-          )}
-          <nav className="space-y-1">
-            {sharedNavigationItems.map((item) => {
-              const Icon = item.icon
-              const active = isActive(item.href)
-              
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => handleNavigation(item.href)}
-                  className={cn(
-                    "w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-200",
-                    active
-                      ? "bg-gray-100 text-gray-900 shadow-sm"
-                      : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
-                  )}
-                  title={collapsed ? item.label : ''}
-                >
-                  <Icon className={cn(
-                    "flex-shrink-0",
-                    collapsed ? "h-5 w-5" : "h-5 w-5 mr-3",
-                    active ? "text-gray-700" : "text-gray-500"
-                  )} />
-                  {!collapsed && (
-                    <span className="flex-1 text-left">{item.label}</span>
-                  )}
-                  {!collapsed && active && (
-                    <div className="w-1.5 h-1.5 bg-gray-700 rounded-full"></div>
                   )}
                 </button>
               )
@@ -249,6 +204,51 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
                   )}
                   {!collapsed && active && (
                     <div className="w-1.5 h-1.5 bg-purple-600 rounded-full"></div>
+                  )}
+                </button>
+              )
+            })}
+          </nav>
+        </div>
+
+        {/* Shared Section - Moved to end */}
+        <div className="px-3 mb-6">
+          {!collapsed && (
+            <h3 className="px-3 mb-2 text-xs font-semibold text-gray-600 uppercase tracking-wider flex items-center">
+              <Shield className="h-3 w-3 mr-1" />
+              Shared
+            </h3>
+          )}
+          {collapsed && (
+            <div className="border-t border-gray-200 my-4"></div>
+          )}
+          <nav className="space-y-1">
+            {sharedNavigationItems.map((item) => {
+              const Icon = item.icon
+              const active = isActive(item.href)
+              
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => handleNavigation(item.href)}
+                  className={cn(
+                    "w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-200",
+                    active
+                      ? "bg-gray-100 text-gray-900 shadow-sm"
+                      : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                  )}
+                  title={collapsed ? item.label : ''}
+                >
+                  <Icon className={cn(
+                    "flex-shrink-0",
+                    collapsed ? "h-5 w-5" : "h-5 w-5 mr-3",
+                    active ? "text-gray-700" : "text-gray-500"
+                  )} />
+                  {!collapsed && (
+                    <span className="flex-1 text-left">{item.label}</span>
+                  )}
+                  {!collapsed && active && (
+                    <div className="w-1.5 h-1.5 bg-gray-700 rounded-full"></div>
                   )}
                 </button>
               )
