@@ -5,7 +5,7 @@
   "description": "Pluto AI Platform - Comprehensive AI Agent Management and Monitoring",
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },
