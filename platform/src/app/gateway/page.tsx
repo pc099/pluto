@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import AppLayout from '@/components/AppLayout'
-import UnifiedGatewayDashboard from '@/components/UnifiedGatewayDashboard'
+import AIProxyDashboard from '@/components/AIProxyDashboard'
 import { authService, User } from '@/lib/auth'
 
 export default function GatewayPage() {
@@ -52,7 +52,7 @@ export default function GatewayPage() {
       onLogout={handleLogout}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <UnifiedGatewayDashboard />
+        <AIProxyDashboard />
       </div>
     </AppLayout>
   )
