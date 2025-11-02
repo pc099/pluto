@@ -4,11 +4,18 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { 
   ArrowRight, 
+  Zap, 
   Shield, 
+  BarChart3, 
   Brain, 
   CheckCircle,
+  Rocket,
+  FileText,
+  Code,
   Lock,
   Eye,
+  TrendingUp,
+  Users,
   Sparkles,
   AlertTriangle,
   DollarSign
@@ -21,45 +28,6 @@ interface LandingPageProps {
 }
 
 export default function LandingPage({ onGetStarted, onSignIn }: LandingPageProps) {
-  const useCases = [
-    {
-      title: "Universal AI Gateway",
-      description: "Single API endpoint for 12+ AI providers with automatic failover, load balancing, and smart routing",
-      icon: <Shield className="w-5 h-5 text-purple-600" />
-    },
-    {
-      title: "Multi-Agent Orchestration",
-      description: "Build and deploy AI agent teams with intelligent task routing, execution monitoring, and chain-of-thought tracking",
-      icon: <Brain className="w-5 h-5 text-blue-600" />
-    },
-    {
-      title: "Production AI Observability",
-      description: "Complete request logging, cost analytics, PII detection, and hallucination prevention for enterprise AI",
-      icon: <Eye className="w-5 h-5 text-green-600" />
-    }
-  ]
-
-  const testimonials = [
-    {
-      name: "Sarah Chen",
-      role: "CTO at TechCorp",
-      content: "Pluto's PII detection saved us from a major compliance issue. The automatic redaction is a game-changer.",
-      avatar: "SC"
-    },
-    {
-      name: "Michael Rodriguez",
-      role: "AI Lead at InnovateLab",
-      content: "We reduced our AI costs by 40% with smart routing. The platform pays for itself.",
-      avatar: "MR"
-    },
-    {
-      name: "Emily Watson",
-      role: "Product Manager at DataFlow",
-      content: "The hallucination detection caught errors we never knew existed. Our AI quality improved dramatically.",
-      avatar: "EW"
-    }
-  ]
-
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
@@ -125,7 +93,7 @@ export default function LandingPage({ onGetStarted, onSignIn }: LandingPageProps
             </Button>
           </div>
 
-          {/* Hero Visual */}
+          {/* Hero Image Placeholder */}
           <div className="relative">
             <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl border-2 border-gray-200 p-8 shadow-2xl">
               <div className="bg-white rounded-xl border border-gray-200 p-6">
@@ -154,8 +122,8 @@ export default function LandingPage({ onGetStarted, onSignIn }: LandingPageProps
                     </div>
                     <div className="flex-1 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-3 text-left">
                       <p className="text-sm text-gray-700">✓ PII Detected & Redacted</p>
-                      <p className="text-sm text-gray-700">✓ Hallucination Check: Pass</p>
-                      <p className="text-sm text-gray-700">✓ Cost Optimized</p>
+                      <p className="text-sm text-gray-700">✓ Hallucination Check: 94% Confidence</p>
+                      <p className="text-sm text-gray-700">✓ Cost: $0.0024 (34% savings)</p>
                     </div>
                   </div>
                 </div>
@@ -165,7 +133,7 @@ export default function LandingPage({ onGetStarted, onSignIn }: LandingPageProps
         </div>
       </section>
 
-      {/* Use Cases */}
+      {/* Use Cases Section */}
       <section id="use-cases" className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
@@ -175,21 +143,47 @@ export default function LandingPage({ onGetStarted, onSignIn }: LandingPageProps
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {useCases.map((useCase, index) => (
-              <Card key={index} className="border-2 hover:border-purple-200 transition-colors">
-                <CardContent className="p-6">
-                  <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
-                    {useCase.icon}
-                  </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                    {useCase.title}
-                  </h3>
-                  <p className="text-gray-600 text-sm">
-                    {useCase.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
+            <Card className="border-2 hover:border-purple-200 transition-colors">
+              <CardContent className="p-6">
+                <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                  <Users className="w-6 h-6 text-purple-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  Automated customer support
+                </h3>
+                <p className="text-gray-600 text-sm">
+                  Build AI agents that handle customer queries with automatic PII protection and quality monitoring
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-2 hover:border-purple-200 transition-colors">
+              <CardContent className="p-6">
+                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                  <FileText className="w-6 h-6 text-blue-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  Content generation
+                </h3>
+                <p className="text-gray-600 text-sm">
+                  Create high-quality content at scale with hallucination detection and cost optimization
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-2 hover:border-purple-200 transition-colors">
+              <CardContent className="p-6">
+                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                  <BarChart3 className="w-6 h-6 text-green-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  Data analysis
+                </h3>
+                <p className="text-gray-600 text-sm">
+                  Process sensitive data safely with automatic PII detection and compliance tracking
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
@@ -198,7 +192,7 @@ export default function LandingPage({ onGetStarted, onSignIn }: LandingPageProps
       <section id="features" className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-            {/* PII Detection */}
+            {/* Feature 1 */}
             <div>
               <div className="flex items-center space-x-3 mb-4">
                 <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
@@ -225,7 +219,7 @@ export default function LandingPage({ onGetStarted, onSignIn }: LandingPageProps
               </ul>
             </div>
 
-            {/* Hallucination Prevention */}
+            {/* Feature 2 */}
             <div>
               <div className="flex items-center space-x-3 mb-4">
                 <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
@@ -252,7 +246,7 @@ export default function LandingPage({ onGetStarted, onSignIn }: LandingPageProps
               </ul>
             </div>
 
-            {/* Cost Optimization */}
+            {/* Feature 3 */}
             <div>
               <div className="flex items-center space-x-3 mb-4">
                 <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
@@ -279,7 +273,7 @@ export default function LandingPage({ onGetStarted, onSignIn }: LandingPageProps
               </ul>
             </div>
 
-            {/* Complete Observability */}
+            {/* Feature 4 */}
             <div>
               <div className="flex items-center space-x-3 mb-4">
                 <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -319,29 +313,61 @@ export default function LandingPage({ onGetStarted, onSignIn }: LandingPageProps
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonials.map((testimonial, index) => (
-              <Card key={index} className="border-2">
-                <CardContent className="p-6">
-                  <div className="flex items-center space-x-3 mb-4">
-                    <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
-                      <span className="text-purple-600 font-semibold text-sm">{testimonial.avatar}</span>
-                    </div>
-                    <div>
-                      <p className="font-semibold text-gray-900 text-sm">{testimonial.name}</p>
-                      <p className="text-gray-500 text-xs">{testimonial.role}</p>
-                    </div>
+            <Card className="border-2">
+              <CardContent className="p-6">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                    <span className="text-purple-600 font-semibold text-sm">SC</span>
                   </div>
-                  <p className="text-gray-700 text-sm leading-relaxed">
-                    &quot;{testimonial.content}&quot;
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
+                  <div>
+                    <p className="font-semibold text-gray-900 text-sm">Sarah Chen</p>
+                    <p className="text-gray-500 text-xs">CTO at TechCorp</p>
+                  </div>
+                </div>
+                <p className="text-gray-700 text-sm leading-relaxed">
+                  &quot;Pluto&apos;s PII detection saved us from a major compliance issue. The automatic redaction is a game-changer for our healthcare AI products.&quot;
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-2">
+              <CardContent className="p-6">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                    <span className="text-blue-600 font-semibold text-sm">MR</span>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-gray-900 text-sm">Michael Rodriguez</p>
+                    <p className="text-gray-500 text-xs">AI Lead at InnovateLab</p>
+                  </div>
+                </div>
+                <p className="text-gray-700 text-sm leading-relaxed">
+                  &quot;We reduced our AI costs by 40% with smart routing. The platform literally pays for itself within the first month.&quot;
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-2">
+              <CardContent className="p-6">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                    <span className="text-green-600 font-semibold text-sm">EW</span>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-gray-900 text-sm">Emily Watson</p>
+                    <p className="text-gray-500 text-xs">Product Manager at DataFlow</p>
+                  </div>
+                </div>
+                <p className="text-gray-700 text-sm leading-relaxed">
+                  &quot;The hallucination detection caught errors we never knew existed. Our AI quality improved dramatically overnight.&quot;
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
 
-      {/* CTA */}
+      {/* CTA Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-purple-600 to-blue-600">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">

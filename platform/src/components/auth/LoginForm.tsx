@@ -68,29 +68,29 @@ export default function LoginForm({ onAuthSuccess }: LoginFormProps) {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-white py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
-            Pluto AI Platform
+          <h2 className="text-4xl font-bold text-gray-900">
+            Welcome to Pluto
           </h2>
-          <p className="mt-2 text-sm text-gray-600">
-            Enterprise AI Management & Monitoring
+          <p className="mt-3 text-lg text-gray-600">
+            The complete platform for production AI
           </p>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Welcome to Pluto AI</CardTitle>
-            <CardDescription>
+        <Card className="border-2">
+          <CardHeader className="space-y-1">
+            <CardTitle className="text-2xl font-bold">Get started</CardTitle>
+            <CardDescription className="text-base">
               Sign in to your account or create a new one
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="login" className="w-full">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="login">Login</TabsTrigger>
-                <TabsTrigger value="register">Register</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-2 bg-gray-100">
+                <TabsTrigger value="login" className="data-[state=active]:bg-white">Sign In</TabsTrigger>
+                <TabsTrigger value="register" className="data-[state=active]:bg-white">Sign Up</TabsTrigger>
               </TabsList>
 
               <TabsContent value="login">
@@ -117,7 +117,7 @@ export default function LoginForm({ onAuthSuccess }: LoginFormProps) {
                       placeholder="Enter your password"
                     />
                   </div>
-                  <Button type="submit" className="w-full" disabled={isLoading}>
+                  <Button type="submit" className="w-full bg-purple-600 hover:bg-purple-700 text-white" disabled={isLoading}>
                     {isLoading ? 'Signing in...' : 'Sign In'}
                   </Button>
                 </form>
@@ -181,7 +181,7 @@ export default function LoginForm({ onAuthSuccess }: LoginFormProps) {
                       placeholder="Your organization name"
                     />
                   </div>
-                  <Button type="submit" className="w-full" disabled={isLoading}>
+                  <Button type="submit" className="w-full bg-purple-600 hover:bg-purple-700 text-white" disabled={isLoading}>
                     {isLoading ? 'Creating account...' : 'Create Account'}
                   </Button>
                 </form>

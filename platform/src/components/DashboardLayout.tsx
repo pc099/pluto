@@ -81,7 +81,7 @@ export default function DashboardLayout({ children, activeTab, onTabChange }: Da
   ]
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-white">
       {/* Sidebar */}
       <div className={`${sidebarCollapsed ? 'w-16' : 'w-64'} transition-all duration-300 bg-white border-r border-gray-200 flex flex-col`}>
         {/* Logo */}
@@ -103,8 +103,8 @@ export default function DashboardLayout({ children, activeTab, onTabChange }: Da
               onClick={() => onTabChange(item.id)}
               className={`w-full flex items-center space-x-3 px-3 py-3 rounded-lg text-left transition-all duration-200 group ${
                 activeTab === item.id
-                  ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg'
-                  : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                  ? 'bg-purple-600 text-white shadow-sm'
+                  : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
               }`}
             >
               <div className={`${activeTab === item.id ? 'text-white' : 'text-gray-500 group-hover:text-gray-700'}`}>
@@ -147,13 +147,13 @@ export default function DashboardLayout({ children, activeTab, onTabChange }: Da
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
-        <header className="bg-white border-b border-gray-200 px-6 py-4">
+        <header className="bg-white border-b border-gray-200 px-6 py-5">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900 capitalize">
+              <h1 className="text-3xl font-bold text-gray-900 capitalize">
                 {sidebarItems.find(item => item.id === activeTab)?.label || 'Dashboard'}
               </h1>
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="text-base text-gray-600 mt-1">
                 {sidebarItems.find(item => item.id === activeTab)?.description || 'Manage your AI platform'}
               </p>
             </div>
@@ -164,7 +164,7 @@ export default function DashboardLayout({ children, activeTab, onTabChange }: Da
                 <Globe className="w-4 h-4 mr-2" />
                 API Docs
               </Button>
-              <Button className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
+              <Button className="bg-purple-600 hover:bg-purple-700 text-white">
                 <Zap className="w-4 h-4 mr-2" />
                 Quick Start
               </Button>
@@ -173,7 +173,7 @@ export default function DashboardLayout({ children, activeTab, onTabChange }: Da
         </header>
 
         {/* Content Area */}
-        <main className="flex-1 overflow-auto">
+        <main className="flex-1 overflow-auto bg-gray-50">
           <div className="h-full">
             {children}
           </div>
