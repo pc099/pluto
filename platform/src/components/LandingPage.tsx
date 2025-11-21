@@ -1,5 +1,6 @@
 'use client'
 import React from 'react'
+import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { 
@@ -14,6 +15,7 @@ import {
   DollarSign
 } from 'lucide-react'
 import PlutoLogo from '@/components/PlutoLogo'
+import MascotElle from '../../layouts/Elle.png'
 
 interface LandingPageProps {
   onGetStarted: () => void
@@ -63,12 +65,11 @@ export default function LandingPage({ onGetStarted, onSignIn }: LandingPageProps
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
-      <nav className="border-b border-gray-200 bg-white sticky top-0 z-50">
+      <nav className="border-b border-border bg-white sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-2">
-              <PlutoLogo size={32} />
-              <span className="text-xl font-bold text-gray-900">Pluto</span>
+            <div className="flex items-center">
+              <PlutoLogo size={64} showText={false} />
             </div>
             <div className="hidden md:flex items-center space-x-8">
               <a href="#features" className="text-gray-600 hover:text-gray-900 text-sm font-medium">Features</a>
@@ -82,7 +83,7 @@ export default function LandingPage({ onGetStarted, onSignIn }: LandingPageProps
               </Button>
               <Button 
                 onClick={onGetStarted}
-                className="bg-purple-600 hover:bg-purple-700 text-white text-sm"
+                className="bg-primary hover:bg-primary/90 text-white text-sm"
               >
                 Get Started
               </Button>
@@ -94,7 +95,7 @@ export default function LandingPage({ onGetStarted, onSignIn }: LandingPageProps
       {/* Hero Section */}
       <section className="pt-20 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto text-center">
-          <div className="inline-flex items-center space-x-2 bg-purple-50 text-purple-700 px-4 py-2 rounded-full text-sm font-medium mb-8">
+          <div className="inline-flex items-center space-x-2 bg-blue-50 text-primary px-4 py-2 rounded-full text-sm font-medium mb-8">
             <Sparkles className="w-4 h-4" />
             <span>Your workbench for AI engineering</span>
           </div>
@@ -111,7 +112,7 @@ export default function LandingPage({ onGetStarted, onSignIn }: LandingPageProps
             <Button 
               size="lg"
               onClick={onGetStarted}
-              className="bg-purple-600 hover:bg-purple-700 text-white text-lg px-8 py-6 h-auto"
+              className="bg-primary hover:bg-primary/90 text-white text-lg px-8 py-6 h-auto"
             >
               Start Building Free
               <ArrowRight className="w-5 h-5 ml-2" />
@@ -127,35 +128,57 @@ export default function LandingPage({ onGetStarted, onSignIn }: LandingPageProps
 
           {/* Hero Visual */}
           <div className="relative">
-            <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl border-2 border-gray-200 p-8 shadow-2xl">
-              <div className="bg-white rounded-xl border border-gray-200 p-6">
-                <div className="flex items-center space-x-2 mb-4">
-                  <div className="flex space-x-1">
-                    <div className="w-3 h-3 rounded-full bg-red-400"></div>
-                    <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
-                    <div className="w-3 h-3 rounded-full bg-green-400"></div>
-                  </div>
-                  <div className="flex-1 bg-gray-100 rounded px-3 py-1 text-xs text-gray-500">
-                    api.pluto.ai/v1/chat/completions
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <div className="flex items-start space-x-3">
-                    <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
-                      <Brain className="w-4 h-4 text-purple-600" />
+            <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl border-2 border-gray-200 p-8 shadow-2xl">
+              <div className="bg-white rounded-xl border border-gray-200 p-6 md:p-8">
+                <div className="grid gap-8 md:grid-cols-2 items-center">
+                  {/* API request preview */}
+                  <div>
+                    <div className="flex items-center space-x-2 mb-4">
+                      <div className="flex space-x-1">
+                        <div className="w-3 h-3 rounded-full bg-red-400"></div>
+                        <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
+                        <div className="w-3 h-3 rounded-full bg-green-400"></div>
+                      </div>
+                      <div className="flex-1 bg-gray-100 rounded px-3 py-1 text-xs text-gray-500">
+                        api.pluto.ai/v1/chat/completions
+                      </div>
                     </div>
-                    <div className="flex-1 bg-gray-50 rounded-lg p-3 text-left">
-                      <p className="text-sm text-gray-700">Analyze this customer feedback and extract sentiment...</p>
+                    <div className="space-y-3">
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                          <Brain className="w-4 h-4 text-primary" />
+                        </div>
+                        <div className="flex-1 bg-gray-50 rounded-lg p-3 text-left">
+                          <p className="text-sm text-gray-700">Analyze this customer feedback and extract sentiment...</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                          <Sparkles className="w-4 h-4 text-primary" />
+                        </div>
+                        <div className="flex-1 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-3 text-left">
+                          <p className="text-sm text-gray-700">✓ PII Detected & Redacted</p>
+                          <p className="text-sm text-gray-700">✓ Hallucination Check: Pass</p>
+                          <p className="text-sm text-gray-700">✓ Cost Optimized</p>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div className="flex items-start space-x-3">
-                    <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                      <Sparkles className="w-4 h-4 text-blue-600" />
-                    </div>
-                    <div className="flex-1 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-3 text-left">
-                      <p className="text-sm text-gray-700">✓ PII Detected & Redacted</p>
-                      <p className="text-sm text-gray-700">✓ Hallucination Check: Pass</p>
-                      <p className="text-sm text-gray-700">✓ Cost Optimized</p>
+
+                  {/* Swagger pup mascot */}
+                  <div className="flex justify-center">
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-blue-200/60 blur-3xl rounded-full opacity-70" />
+                      <div className="relative rounded-2xl bg-blue-100 p-4 shadow-xl border border-blue-200">
+                        <Image
+                          src={MascotElle}
+                          alt="Pluto swagger pup mascot"
+                          width={320}
+                          height={320}
+                          className="h-auto w-40 sm:w-48 md:w-64"
+                          priority
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -176,9 +199,9 @@ export default function LandingPage({ onGetStarted, onSignIn }: LandingPageProps
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {useCases.map((useCase, index) => (
-              <Card key={index} className="border-2 hover:border-purple-200 transition-colors">
+              <Card key={index} className="border-2 hover:border-primary/30 transition-colors">
                 <CardContent className="p-6">
-                  <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
                     {useCase.icon}
                   </div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">
@@ -342,7 +365,7 @@ export default function LandingPage({ onGetStarted, onSignIn }: LandingPageProps
       </section>
 
       {/* CTA */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-purple-600 to-blue-600">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-600 to-blue-800">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             Ready to build production AI?
@@ -371,7 +394,7 @@ export default function LandingPage({ onGetStarted, onSignIn }: LandingPageProps
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
+      <footer className="bg-gradient-to-b from-blue-950 via-slate-950 to-black text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div>
@@ -411,15 +434,15 @@ export default function LandingPage({ onGetStarted, onSignIn }: LandingPageProps
               </ul>
             </div>
           </div>
-          <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+          <div className="border-t border-blue-800/60 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center space-x-2 mb-4 md:mb-0">
-              <PlutoLogo size={24} />
-              <span className="text-sm text-gray-400">&copy; 2024 Pluto. All rights reserved.</span>
+              <PlutoLogo size={24} showText={false} />
+              <span className="text-sm text-blue-100">&copy; 2024 Pluto. All rights reserved.</span>
             </div>
             <div className="flex items-center space-x-6">
-              <a href="#" className="text-gray-400 hover:text-white text-sm">Twitter</a>
-              <a href="#" className="text-gray-400 hover:text-white text-sm">GitHub</a>
-              <a href="#" className="text-gray-400 hover:text-white text-sm">LinkedIn</a>
+              <a href="#" className="text-blue-200 hover:text-white text-sm">Twitter</a>
+              <a href="#" className="text-blue-200 hover:text-white text-sm">GitHub</a>
+              <a href="#" className="text-blue-200 hover:text-white text-sm">LinkedIn</a>
             </div>
           </div>
         </div>

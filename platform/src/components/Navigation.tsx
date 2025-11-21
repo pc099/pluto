@@ -68,12 +68,12 @@ export default function Navigation({
   ]
 
   return (
-    <nav className="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-40">
+    <nav className="bg-background/80 backdrop-blur-md border-b border-border sticky top-0 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo and Brand */}
           <div className="flex items-center space-x-8">
-            <PlutoLogo size={40} />
+            <PlutoLogo size={60} showText={false} iconOnly />
             
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center space-x-2">
@@ -85,7 +85,7 @@ export default function Navigation({
                     onClick={() => router.push(item.href)}
                     className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                       pathname === item.href
-                        ? 'bg-gradient-to-r from-purple-100 to-blue-100 text-purple-700 shadow-sm'
+                        ? 'bg-gradient-to-r from-blue-50 to-blue-100 text-blue-700 shadow-sm'
                         : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
                     }`}
                     title={item.description}
@@ -140,10 +140,10 @@ export default function Navigation({
                 {/* User Menu */}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="relative h-9 w-9 rounded-full hover:ring-2 hover:ring-purple-200">
+                    <Button variant="ghost" className="relative h-9 w-9 rounded-full hover:ring-2 hover:ring-blue-200">
                       <Avatar className="h-9 w-9">
                         <AvatarImage src={undefined} />
-                        <AvatarFallback className="bg-gradient-to-r from-purple-600 to-blue-600 text-white text-sm font-semibold">
+                        <AvatarFallback className="bg-gradient-to-r from-blue-500 to-blue-700 text-white text-sm font-semibold">
                           {getInitials(`${user.first_name} ${user.last_name}`)}
                         </AvatarFallback>
                       </Avatar>
@@ -157,7 +157,7 @@ export default function Navigation({
                           {user.email}
                         </p>
                         <p className="text-xs leading-none text-muted-foreground capitalize mt-1">
-                          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-800">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
                             {user.role}
                           </span>
                         </p>
@@ -196,7 +196,7 @@ export default function Navigation({
                 </Button>
                 <Button 
                   onClick={onAuth}
-                  className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
+                  className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white"
                 >
                   Get Started
                 </Button>
@@ -233,7 +233,7 @@ export default function Navigation({
                       }}
                       className={`flex items-center space-x-3 w-full text-left px-3 py-3 rounded-lg text-base font-medium ${
                         pathname === item.href
-                          ? 'bg-gradient-to-r from-purple-100 to-blue-100 text-purple-700'
+                          ? 'bg-gradient-to-r from-blue-50 to-blue-100 text-blue-700'
                           : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
                       }`}
                     >
@@ -258,7 +258,7 @@ export default function Navigation({
                       }}
                       className={`flex items-center space-x-3 w-full text-left px-3 py-3 rounded-lg text-base font-medium ${
                         pathname === item.href
-                          ? 'bg-gradient-to-r from-purple-100 to-blue-100 text-purple-700'
+                          ? 'bg-gradient-to-r from-blue-50 to-blue-100 text-blue-700'
                           : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
                       }`}
                     >

@@ -1,10 +1,10 @@
-// src/components/AIQualityDashboard.tsx
 'use client'
 import { useEffect, useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { API_BASE_URL } from '@/lib/api'
 
-const API_BASE = 'https://pluto-backend-qprv.onrender.com'
+const API_BASE = API_BASE_URL
 
 interface QualityAnalysis {
   analysis_id: string
@@ -220,320 +220,164 @@ export default function AIQualityDashboard() {
   }
 
   const getScoreColor = (score: number) => {
-    if (score >= 0.8) return 'text-emerald-400'
-    if (score >= 0.6) return 'text-amber-400'
-    return 'text-red-400'
-  }
-
-  const getScoreBarColor = (score: number) => {
-    if (score >= 0.8) return 'bg-emerald-500'
-    if (score >= 0.6) return 'bg-amber-500'
-    return 'bg-red-500'
+    if (score >= 0.8) return 'text-green-500'
+    if (score >= 0.6) return 'text-yellow-500'
+    return 'text-red-500'
   }
 
   if (loading) {
     return (
-      <div className="p-8 text-white">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <div className="text-lg">Loading AI quality analysis...</div>
-        </div>
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
       </div>
     )
   }
 
   return (
-    <div className="p-6 space-y-6 text-white">
-      <div className="flex justify-between items-center">
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-red-400 bg-clip-text text-transparent">
-            AI Quality Intelligence
-          </h1>
-          <p className="text-slate-400">Advanced AI response analysis and risk detection</p>
+          <h1 className="text-3xl font-bold">AI Quality & Hallucination Detection</h1>
+          <p className="text-gray-600">Real-time monitoring of AI response quality and faithfulness</p>
         </div>
+        <div className="flex space-x-2">
+          <Button onClick={fetchQualityData} variant="outline">
+            Refresh Data
+          </Button>
+        </div>
+      </div>
+
+      {/* Stats Overview */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Avg Quality Score</p>
+                <p className={`text-2xl font-bold ${getScoreColor(stats.avg_quality_score)}`}>
+                  {(stats.avg_quality_score * 100).toFixed(1)}%
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
         
-        <Button onClick={fetchQualityData} variant="outline" size="sm" className="bg-slate-800/50 border-slate-600 text-slate-200 hover:bg-slate-700">
-          Refresh Analysis
-        </Button>
-      </div>
-
-      {/* Quality Overview Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-        <Card className="bg-gradient-to-br from-blue-500/20 to-blue-600/20 border-blue-500/30 backdrop-blur-sm hover:scale-105 transition-all duration-300">
-          <CardContent className="p-4">
+        <Card>
+          <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-2xl font-bold text-blue-400">{stats.total_analyzed}</div>
-                <div className="text-sm text-blue-300">Responses Analyzed</div>
-              </div>
-              <div className="p-3 rounded-full bg-blue-500/20">
-                <span className="text-xl">🧠</span>
+                <p className="text-sm font-medium text-gray-600">High Risk Responses</p>
+                <p className="text-2xl font-bold text-red-500">{stats.high_risk_count}</p>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-emerald-500/20 to-emerald-600/20 border-emerald-500/30 backdrop-blur-sm hover:scale-105 transition-all duration-300">
-          <CardContent className="p-4">
+        <Card>
+          <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-2xl font-bold text-emerald-400">{(stats.avg_quality_score * 100).toFixed(1)}%</div>
-                <div className="text-sm text-emerald-300">Avg Quality Score</div>
-              </div>
-              <div className="p-3 rounded-full bg-emerald-500/20">
-                <span className="text-xl">⭐</span>
+                <p className="text-sm font-medium text-gray-600">Hallucination Alerts</p>
+                <p className="text-2xl font-bold text-orange-500">{stats.hallucination_alerts}</p>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-amber-500/20 to-amber-600/20 border-amber-500/30 backdrop-blur-sm hover:scale-105 transition-all duration-300">
-          <CardContent className="p-4">
+        <Card>
+          <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-2xl font-bold text-amber-400">{stats.high_risk_count}</div>
-                <div className="text-sm text-amber-300">High Risk Responses</div>
-              </div>
-              <div className="p-3 rounded-full bg-amber-500/20">
-                <span className="text-xl">⚠️</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-gradient-to-br from-purple-500/20 to-purple-600/20 border-purple-500/30 backdrop-blur-sm hover:scale-105 transition-all duration-300">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-2xl font-bold text-purple-400">{stats.hallucination_alerts}</div>
-                <div className="text-sm text-purple-300">Hallucination Alerts</div>
-              </div>
-              <div className="p-3 rounded-full bg-purple-500/20">
-                <span className="text-xl">🔍</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-gradient-to-br from-red-500/20 to-red-600/20 border-red-500/30 backdrop-blur-sm hover:scale-105 transition-all duration-300">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-2xl font-bold text-red-400">{stats.security_incidents}</div>
-                <div className="text-sm text-red-300">Security Incidents</div>
-              </div>
-              <div className="p-3 rounded-full bg-red-500/20">
-                <span className="text-xl">🛡️</span>
+                <p className="text-sm font-medium text-gray-600">Security Incidents</p>
+                <p className="text-2xl font-bold text-red-600">{stats.security_incidents}</p>
               </div>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Quality Analysis Details */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Recent Quality Analysis */}
-        <div className="lg:col-span-2">
-          <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
-            <CardHeader className="border-b border-slate-700">
-              <CardTitle className="text-slate-200">🔬 Recent Quality Analysis</CardTitle>
-            </CardHeader>
-            <CardContent className="p-0">
-              <div className="max-h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-slate-800">
-                {qualityData.length === 0 ? (
-                  <div className="text-center py-12 text-slate-500">
-                    <div className="text-4xl mb-4">🔬</div>
-                    <div className="text-lg font-medium mb-2">No quality analysis yet</div>
-                    <div className="text-sm">AI responses will be analyzed automatically</div>
+      {/* Recent Analysis Feed */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Recent Analysis Feed</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {qualityData.map((analysis) => (
+              <div key={analysis.analysis_id} className="border rounded-lg p-4 space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-4">
+                    <span className={`px-2 py-1 rounded text-xs font-medium ${getRiskLevelColor(analysis.risk_level)}`}>
+                      {analysis.risk_level} RISK
+                    </span>
+                    <span className="text-sm text-gray-500">
+                      {new Date(analysis.timestamp).toLocaleString()}
+                    </span>
+                    <span className="text-sm font-medium text-gray-700">
+                      {analysis.model} ({analysis.provider})
+                    </span>
                   </div>
-                ) : (
-                  <div className="space-y-4 p-6">
-                    {qualityData.map((analysis) => (
-                      <div key={analysis.analysis_id} className="border border-slate-600/50 rounded-lg p-4 bg-slate-800/30 hover:bg-slate-800/50 transition-colors">
-                        <div className="flex justify-between items-start mb-3">
-                          <div className="flex items-center space-x-3">
-                            <div className={`px-3 py-1 rounded-full text-xs font-semibold border ${getRiskLevelColor(analysis.risk_level)}`}>
-                              {analysis.risk_level}
-                            </div>
-                            <span className="text-white font-medium">{analysis.provider}</span>
-                            <span className="text-slate-400 text-sm">{analysis.model}</span>
-                          </div>
-                          <div className="text-xs text-slate-500">
-                            {new Date(analysis.timestamp).toLocaleTimeString()}
-                          </div>
+                  <div className="flex items-center space-x-4">
+                    <div className="text-right">
+                      <p className="text-xs text-gray-500">Quality Score</p>
+                      <p className={`font-bold ${getScoreColor(analysis.overall_quality_score)}`}>
+                        {(analysis.overall_quality_score * 100).toFixed(1)}%
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-sm">
+                  <div>
+                    <p className="text-gray-500">Hallucination Risk</p>
+                    <p className={analysis.detailed_scores.hallucination_risk > 0.5 ? 'text-red-500' : 'text-green-500'}>
+                      {(analysis.detailed_scores.hallucination_risk * 100).toFixed(1)}%
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-gray-500">Factual Consistency</p>
+                    <p className={analysis.detailed_scores.factual_consistency < 0.7 ? 'text-yellow-500' : 'text-green-500'}>
+                      {(analysis.detailed_scores.factual_consistency * 100).toFixed(1)}%
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-gray-500">Confidence</p>
+                    <p>{(analysis.detailed_scores.confidence_score * 100).toFixed(1)}%</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-500">Toxicity</p>
+                    <p className={analysis.detailed_scores.toxicity_score > 0.1 ? 'text-red-500' : 'text-green-500'}>
+                      {(analysis.detailed_scores.toxicity_score * 100).toFixed(1)}%
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-gray-500">Security Score</p>
+                    <p className={analysis.security_analysis.security_score < 0.8 ? 'text-red-500' : 'text-green-500'}>
+                      {(analysis.security_analysis.security_score * 100).toFixed(1)}%
+                    </p>
+                  </div>
+                </div>
+
+                {/* Alerts Section */}
+                {analysis.alerts.length > 0 && (
+                  <div className="bg-red-50 p-3 rounded-md space-y-2">
+                    <p className="text-sm font-medium text-red-800">Active Alerts</p>
+                    {analysis.alerts.map((alert, idx) => (
+                      <div key={idx} className="flex items-start space-x-2 text-sm text-red-700">
+                        <span>•</span>
+                        <div>
+                          <span className="font-medium">{alert.message}</span>
+                          <span className="block text-xs text-red-600 mt-1">Action: {alert.action_required}</span>
                         </div>
-
-                        {/* Overall Quality Score */}
-                        <div className="mb-4">
-                          <div className="flex justify-between items-center mb-2">
-                            <span className="text-sm text-slate-400">Overall Quality Score</span>
-                            <span className={`font-bold ${getScoreColor(analysis.overall_quality_score)}`}>
-                              {(analysis.overall_quality_score * 100).toFixed(1)}%
-                            </span>
-                          </div>
-                          <div className="w-full bg-slate-700 rounded-full h-2">
-                            <div 
-                              className={`h-2 rounded-full transition-all duration-500 ${getScoreBarColor(analysis.overall_quality_score)}`}
-                              style={{ width: `${analysis.overall_quality_score * 100}%` }}
-                            ></div>
-                          </div>
-                        </div>
-
-                        {/* Detailed Scores */}
-                        <div className="grid grid-cols-2 gap-3 mb-4">
-                          <div className="space-y-2">
-                            <div className="flex justify-between text-xs">
-                              <span className="text-slate-400">Hallucination Risk</span>
-                              <span className={getScoreColor(1 - analysis.detailed_scores.hallucination_risk)}>
-                                {((1 - analysis.detailed_scores.hallucination_risk) * 100).toFixed(0)}%
-                              </span>
-                            </div>
-                            <div className="flex justify-between text-xs">
-                              <span className="text-slate-400">Confidence</span>
-                              <span className={getScoreColor(analysis.detailed_scores.confidence_score)}>
-                                {(analysis.detailed_scores.confidence_score * 100).toFixed(0)}%
-                              </span>
-                            </div>
-                            <div className="flex justify-between text-xs">
-                              <span className="text-slate-400">Consistency</span>
-                              <span className={getScoreColor(analysis.detailed_scores.factual_consistency)}>
-                                {(analysis.detailed_scores.factual_consistency * 100).toFixed(0)}%
-                              </span>
-                            </div>
-                          </div>
-                          <div className="space-y-2">
-                            <div className="flex justify-between text-xs">
-                              <span className="text-slate-400">Security Score</span>
-                              <span className={getScoreColor(analysis.security_analysis.security_score)}>
-                                {(analysis.security_analysis.security_score * 100).toFixed(0)}%
-                              </span>
-                            </div>
-                            <div className="flex justify-between text-xs">
-                              <span className="text-slate-400">Toxicity</span>
-                              <span className={getScoreColor(1 - analysis.detailed_scores.toxicity_score)}>
-                                {((1 - analysis.detailed_scores.toxicity_score) * 100).toFixed(0)}%
-                              </span>
-                            </div>
-                            <div className="flex justify-between text-xs">
-                              <span className="text-slate-400">Bias</span>
-                              <span className={getScoreColor(1 - analysis.detailed_scores.bias_score)}>
-                                {((1 - analysis.detailed_scores.bias_score) * 100).toFixed(0)}%
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Security Alerts */}
-                        {(analysis.security_analysis.prompt_injection_detected || 
-                          analysis.security_analysis.data_extraction_attempt || 
-                          analysis.security_analysis.malicious_request) && (
-                          <div className="bg-red-900/20 border border-red-500/30 rounded-lg p-3 mb-3">
-                            <div className="text-red-400 text-sm font-semibold mb-1">Security Alert</div>
-                            {analysis.security_analysis.prompt_injection_detected && (
-                              <div className="text-red-300 text-xs">⚠️ Prompt injection detected</div>
-                            )}
-                            {analysis.security_analysis.data_extraction_attempt && (
-                              <div className="text-red-300 text-xs">⚠️ Data extraction attempt</div>
-                            )}
-                            {analysis.security_analysis.malicious_request && (
-                              <div className="text-red-300 text-xs">⚠️ Malicious request detected</div>
-                            )}
-                          </div>
-                        )}
-
-                        {/* Recommendations */}
-                        {analysis.recommendations.length > 0 && (
-                          <div className="text-xs">
-                            <div className="text-slate-400 mb-1">Recommendations:</div>
-                            <ul className="text-slate-300 space-y-1">
-                              {analysis.recommendations.slice(0, 2).map((rec, idx) => (
-                                <li key={idx} className="flex items-start space-x-2">
-                                  <span className="text-blue-400">•</span>
-                                  <span>{rec}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
                       </div>
                     ))}
                   </div>
                 )}
               </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Quality Trends & Alerts */}
-        <div className="space-y-6">
-          {/* Quality Trends */}
-          <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
-            <CardHeader className="border-b border-slate-700">
-              <CardTitle className="text-slate-200">📈 Quality Trends</CardTitle>
-            </CardHeader>
-            <CardContent className="p-6">
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-slate-400">Average Quality</span>
-                  <span className="text-emerald-400 font-bold">
-                    {(stats.avg_quality_score * 100).toFixed(1)}%
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-slate-400">Risk Distribution</span>
-                  <div className="flex space-x-1">
-                    <div className="w-3 h-3 bg-emerald-500 rounded"></div>
-                    <div className="w-3 h-3 bg-amber-500 rounded"></div>
-                    <div className="w-3 h-3 bg-red-500 rounded"></div>
-                  </div>
-                </div>
-                <div className="text-xs text-slate-500">
-                  Quality monitoring active across all AI interactions
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Active Monitoring */}
-          <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
-            <CardHeader className="border-b border-slate-700">
-              <CardTitle className="text-slate-200">🔍 Active Monitoring</CardTitle>
-            </CardHeader>
-            <CardContent className="p-6">
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-400">Hallucination Detection</span>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                    <span className="text-emerald-400 text-sm">Active</span>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-400">Security Scanning</span>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                    <span className="text-emerald-400 text-sm">Active</span>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-400">Bias Detection</span>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                    <span className="text-emerald-400 text-sm">Active</span>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-400">Quality Scoring</span>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                    <span className="text-emerald-400 text-sm">Active</span>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   )
 }

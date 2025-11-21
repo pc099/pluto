@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import AppLayout from '@/components/AppLayout'
 import PolicyManagementDashboard from '@/components/PolicyManagementDashboard'
+import LoadingScreen from '@/components/LoadingScreen'
 import { authService, User } from '@/lib/auth'
 
 export default function PoliciesPage() {
@@ -46,11 +47,7 @@ export default function PoliciesPage() {
   }
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
-      </div>
-    )
+    return <LoadingScreen />
   }
 
   return (

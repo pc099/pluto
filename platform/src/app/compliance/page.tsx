@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import AppLayout from '@/components/AppLayout'
 import ComplianceDashboard from '@/components/ComplianceDashboard'
 import ComplianceViolationsPanel from '@/components/ComplianceViolationsPanel'
+import LoadingScreen from '@/components/LoadingScreen'
 import { authService, User } from '@/lib/auth'
 import { Button } from '@/components/ui/button'
 
@@ -41,11 +42,7 @@ export default function CompliancePage() {
   }
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
-      </div>
-    )
+    return <LoadingScreen />
   }
 
   return (

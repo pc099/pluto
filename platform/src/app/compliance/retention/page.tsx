@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import AppLayout from '@/components/AppLayout'
 import RetentionPolicyManager from '@/components/RetentionPolicyManager'
+import LoadingScreen from '@/components/LoadingScreen'
 import { authService, User } from '@/lib/auth'
 
 export default function RetentionPage() {
@@ -38,11 +39,7 @@ export default function RetentionPage() {
   }
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
-      </div>
-    )
+    return <LoadingScreen />
   }
 
   return (

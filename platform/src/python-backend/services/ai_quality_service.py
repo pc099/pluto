@@ -5,6 +5,7 @@ import asyncio
 from typing import Dict, Any, List, Optional
 from datetime import datetime
 import hashlib
+from services.faithfulness_evaluator import FaithfulnessEvaluator
 
 class AIQualityAnalyzer:
     def __init__(self):
@@ -66,9 +67,12 @@ class AIQualityAnalyzer:
                 r"bypass security",
             ]
         }
+        
+        # Initialize Faithfulness Evaluator
+        self.faithfulness_evaluator = FaithfulnessEvaluator()
 
     async def analyze_quality(self, request_content: str, response_content: str,
-                              model: str, provider: str, use_advanced: bool = True) -> Dict[str, Any]:
+                              model: str, provider: str, use_advanced: bool = True, context: Optional[str] = None) -> Dict[str, Any]:
         """Comprehensive AI response quality analysis"""
         
         analysis_start = datetime.utcnow()
@@ -118,6 +122,23 @@ class AIQualityAnalyzer:
         bias_detection = self._detect_potential_bias(response_content)
         toxicity_score = self._calculate_toxicity_score(response_content)
         
+        # Faithfulness Analysis (if context is provided)
+        faithfulness_result = {}
+        if context:
+            try:
+                faithfulness_result = await self.faithfulness_evaluator.evaluate(
+                    question=request_content,
+                    context=context,
+                    answer=response_content
+                )
+                # Adjust quality score based on faithfulness
+                if not faithfulness_result.get("is_faithful", True):
+                    quality_score = quality_score * 0.5  # Penalize for unfaithfulness
+                    hallucination_score = max(hallucination_score, 0.8) # High hallucination risk
+                    has_hallucination = True
+            except Exception as e:
+                print(f"Faithfulness evaluation failed: {e}")
+
         # Calculate overall quality score
         overall_quality = self._calculate_overall_quality(
             quality_score, confidence_score, has_hallucination, 
@@ -143,9 +164,11 @@ class AIQualityAnalyzer:
                 "confidence_score": round(confidence_score, 2),
                 "factual_consistency": round(factual_consistency, 2),
                 "toxicity_score": round(toxicity_score, 2),
-                "bias_score": round(bias_detection, 2)
+                "bias_score": round(bias_detection, 2),
+                "faithfulness_score": faithfulness_result.get("score", 1.0) if context else None
             },
             "security_analysis": security_analysis,
+            "faithfulness_analysis": faithfulness_result if context else None,
             "recommendations": self._generate_recommendations(overall_quality, security_analysis),
             "alerts": self._generate_alerts(overall_quality, security_analysis, hallucination_score)
         }

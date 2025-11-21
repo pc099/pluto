@@ -4,48 +4,49 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 222 47% 11%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 262.1 83.3% 57.8%;
+    --popover-foreground: 222 47% 11%;
+    /* Pluto brand blue */
+    --primary: 222 80% 42%;
     --primary-foreground: 210 40% 98%;
     --secondary: 210 40% 96%;
-    --secondary-foreground: 222.2 84% 4.9%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96%;
-    --accent-foreground: 222.2 84% 4.9%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 210 30% 92%;
+    --muted-foreground: 215 16% 40%;
+    --accent: 210 45% 94%;
+    --accent-foreground: 222 47% 11%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 262.1 83.3% 57.8%;
+    --border: 214 30% 90%;
+    --input: 214 30% 90%;
+    --ring: 222 80% 42%;
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
+    --background: 222 47% 8%;
     --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
+    --card: 222 47% 10%;
     --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
+    --popover: 222 47% 10%;
     --popover-foreground: 210 40% 98%;
-    --primary: 262.1 83.3% 57.8%;
+    --primary: 222 80% 60%;
     --primary-foreground: 210 40% 98%;
-    --secondary: 217.2 32.6% 17.5%;
+    --secondary: 220 32% 18%;
     --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
+    --muted: 220 32% 18%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 220 32% 18%;
     --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 262.1 83.3% 57.8%;
+    --border: 220 32% 24%;
+    --input: 220 32% 24%;
+    --ring: 222 80% 60%;
   }
 }
 
@@ -54,7 +55,15 @@
     @apply border-gray-200;
   }
   body {
-    @apply bg-white text-gray-900;
+    color: hsl(var(--foreground));
+    background-color: hsl(var(--background));
+    /* Subtle grid background to match the Pluto logo */
+    background-image:
+      radial-gradient(circle at top left, rgba(37, 99, 235, 0.10), transparent 55%),
+      radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.08), transparent 60%),
+      linear-gradient(to right, rgba(148, 163, 184, 0.10) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(148, 163, 184, 0.10) 1px, transparent 1px);
+    background-size: auto, auto, 32px 32px, 32px 32px;
   }
 }
 
@@ -100,7 +109,7 @@
 
 /* Gradient text utilities */
 .gradient-text {
-  @apply bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent;
+  @apply bg-gradient-to-r from-blue-700 to-blue-400 bg-clip-text text-transparent;
 }
 
 /* Glass morphism effect */
@@ -132,5 +141,5 @@
 
 /* Focus styles */
 .focus-ring {
-  @apply focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2;
+  @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
 }

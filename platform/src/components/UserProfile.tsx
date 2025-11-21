@@ -65,7 +65,7 @@ export default function UserProfile({ user, onUpdate, onLogout }: UserProfilePro
         <div className="flex items-center space-x-4">
           <Avatar className="w-16 h-16">
             <AvatarImage src={undefined} />
-            <AvatarFallback className="bg-gradient-to-r from-purple-600 to-blue-600 text-white text-lg">
+            <AvatarFallback className="bg-gradient-to-r from-blue-600 to-blue-800 text-white text-lg">
               {getInitials(`${editedUser.first_name} ${editedUser.last_name}`)}
             </AvatarFallback>
           </Avatar>
@@ -169,7 +169,7 @@ export default function UserProfile({ user, onUpdate, onLogout }: UserProfilePro
               <div className="flex items-center space-x-4">
                 <Avatar className="w-20 h-20">
                   <AvatarImage src={undefined} />
-                  <AvatarFallback className="bg-gradient-to-r from-purple-600 to-blue-600 text-white text-xl">
+                  <AvatarFallback className="bg-gradient-to-r from-blue-600 to-blue-800 text-white text-xl">
                     {getInitials(`${editedUser.first_name} ${editedUser.last_name}`)}
                   </AvatarFallback>
                 </Avatar>
@@ -290,7 +290,7 @@ export default function UserProfile({ user, onUpdate, onLogout }: UserProfilePro
               </div>
               
               <div className="flex space-x-2">
-                <Button className="bg-gradient-to-r from-purple-600 to-blue-600">
+                <Button className="bg-gradient-to-r from-blue-600 to-blue-800">
                   Upgrade Plan
                 </Button>
                 <Button variant="outline">

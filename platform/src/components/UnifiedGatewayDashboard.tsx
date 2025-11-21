@@ -43,7 +43,7 @@ export default function UnifiedGatewayDashboard() {
             One endpoint. All AI providers. Intelligent routing.
           </p>
         </div>
-        <Badge className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2">
+        <Badge className="bg-gradient-to-r from-blue-600 to-blue-800 text-white px-4 py-2">
           <Globe className="h-4 w-4 mr-2" />
           Gateway Active
         </Badge>

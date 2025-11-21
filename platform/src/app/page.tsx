@@ -15,6 +15,7 @@ import DashboardLayout from '@/components/DashboardLayout'
 import LandingPage from '@/components/LandingPage'
 import UserProfile from '@/components/UserProfile'
 import ProtectedRoute from '@/components/auth/ProtectedRoute'
+import LoadingScreen from '@/components/LoadingScreen'
 import { authService, User } from '@/lib/auth'
 
 export default function Home() {
@@ -117,11 +118,7 @@ export default function Home() {
 
   // Show loading while redirecting
   if (pathname === '/' && user && !isLandingPage) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
-      </div>
-    )
+    return <LoadingScreen />
   }
 
   // Show simplified dashboard for root path (fallback)

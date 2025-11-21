@@ -341,9 +341,9 @@ print(response.choices[0].message.content)`}</code>
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div className="p-3 bg-purple-50 rounded-lg border border-purple-200">
+            <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
               <div className="flex items-center space-x-2 mb-2">
-                <Bot className="h-4 w-4 text-purple-600" />
+                <Bot className="h-4 w-4 text-blue-600" />
                 <h4 className="font-semibold text-sm">My Agents</h4>
               </div>
               <p className="text-xs text-gray-700 mb-2">
@@ -358,9 +358,9 @@ print(response.choices[0].message.content)`}</code>
               </ul>
             </div>
 
-            <div className="p-3 bg-purple-50 rounded-lg border border-purple-200">
+            <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
               <div className="flex items-center space-x-2 mb-2">
-                <Activity className="h-4 w-4 text-purple-600" />
+                <Activity className="h-4 w-4 text-blue-600" />
                 <h4 className="font-semibold text-sm">Smart Routing</h4>
               </div>
               <p className="text-xs text-gray-700 mb-2">
@@ -375,9 +375,9 @@ print(response.choices[0].message.content)`}</code>
               </ul>
             </div>
 
-            <div className="p-3 bg-purple-50 rounded-lg border border-purple-200">
+            <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
               <div className="flex items-center space-x-2 mb-2">
-                <Brain className="h-4 w-4 text-purple-600" />
+                <Brain className="h-4 w-4 text-blue-600" />
                 <h4 className="font-semibold text-sm">Execution Logs</h4>
               </div>
               <p className="text-xs text-gray-700 mb-2">
@@ -392,9 +392,9 @@ print(response.choices[0].message.content)`}</code>
               </ul>
             </div>
 
-            <div className="p-3 bg-purple-50 rounded-lg border border-purple-200">
+            <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
               <div className="flex items-center space-x-2 mb-2">
-                <AlertTriangle className="h-4 w-4 text-purple-600" />
+                <AlertTriangle className="h-4 w-4 text-blue-600" />
                 <h4 className="font-semibold text-sm">Hallucination Detection</h4>
               </div>
               <p className="text-xs text-gray-700 mb-2">
@@ -410,8 +410,8 @@ print(response.choices[0].message.content)`}</code>
             </div>
           </div>
 
-          <div className="p-3 bg-gradient-to-r from-purple-100 to-pink-100 rounded-lg border border-purple-300">
-            <h5 className="font-semibold text-purple-900 mb-1 flex items-center text-sm">
+          <div className="p-3 bg-gradient-to-r from-blue-100 to-cyan-100 rounded-lg border border-blue-300">
+            <h5 className="font-semibold text-blue-900 mb-1 flex items-center text-sm">
               <Layers className="h-4 w-4 mr-2" />
               Agent Metrics
             </h5>
@@ -539,10 +539,10 @@ print(response.choices[0].message.content)`}</code>
               </CardHeader>
             </Card>
 
-            <Card className="border-2 hover:border-purple-300 transition-colors cursor-pointer">
+            <Card className="border-2 hover:border-blue-300 transition-colors cursor-pointer">
               <CardHeader>
                 <CardTitle className="text-base flex items-center">
-                  <Bot className="h-4 w-4 mr-2 text-purple-600" />
+                  <Bot className="h-4 w-4 mr-2 text-blue-600" />
                   AI Agents
                 </CardTitle>
                 <CardDescription>Build autonomous AI agents</CardDescription>
@@ -570,8 +570,8 @@ print(response.choices[0].message.content)`}</code>
             </Card>
           </div>
 
-          <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 mt-6">
-            <p className="text-sm text-purple-900">
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-6">
+            <p className="text-sm text-blue-900">
               <strong>Need help?</strong> Check out our <a href="/help" className="underline font-semibold">documentation</a> or reach out to support.
             </p>
           </div>
@@ -612,7 +612,7 @@ print(response.choices[0].message.content)`}</code>
               <div
                 key={index}
                 className={`h-2 flex-1 rounded-full transition-colors ${
-                  index <= currentStep ? 'bg-purple-600' : 'bg-gray-200'
+                  index <= currentStep ? 'bg-blue-600' : 'bg-gray-200'
                 }`}
               />
             ))}

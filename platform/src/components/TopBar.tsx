@@ -44,7 +44,7 @@ export default function TopBar({
   }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-md border-b border-gray-200 z-50 h-16">
+    <nav className="fixed top-0 left-0 right-0 bg-background/95 backdrop-blur-md border-b border-border z-50 h-16">
       <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Left Section - Logo and Sidebar Toggle */}
@@ -55,11 +55,11 @@ export default function TopBar({
             >
               <Menu className="h-5 w-5 text-gray-600" />
             </button>
-            <PlutoLogo size={36} />
-            <div className="hidden sm:block">
-              <h1 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                Pluto AI
-              </h1>
+            <div className="flex items-center rounded-xl bg-gradient-to-r from-blue-50 to-blue-100 border border-blue-100 px-3 py-1.5 shadow-sm">
+              <PlutoLogo size={40} showText={false} iconOnly />
+              <span className="ml-2 text-sm font-semibold text-blue-900 hidden sm:inline">
+                Pluto Platform
+              </span>
             </div>
           </div>
 
@@ -76,8 +76,8 @@ export default function TopBar({
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button className="flex items-center space-x-3 p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
-                    <Avatar className="h-9 w-9 ring-2 ring-purple-100 hover:ring-purple-200 transition-all">
-                      <AvatarFallback className="bg-gradient-to-br from-purple-500 to-blue-500 text-white text-sm font-semibold">
+                    <Avatar className="h-9 w-9 ring-2 ring-blue-100 hover:ring-blue-200 transition-all">
+                      <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-700 text-white text-sm font-semibold">
                         {getInitials(`${user.first_name} ${user.last_name}`)}
                       </AvatarFallback>
                     </Avatar>
@@ -92,7 +92,7 @@ export default function TopBar({
                     <div className="flex flex-col space-y-1">
                       <p className="text-sm font-medium">{user.first_name} {user.last_name}</p>
                       <p className="text-xs text-gray-500">{user.email}</p>
-                      <Badge variant="secondary" className="w-fit mt-1 bg-purple-100 text-purple-700 hover:bg-purple-100">
+                      <Badge variant="secondary" className="w-fit mt-1 bg-blue-100 text-blue-700 hover:bg-blue-100">
                         {user.role}
                       </Badge>
                     </div>
@@ -122,7 +122,7 @@ export default function TopBar({
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Button onClick={onAuth} className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
+              <Button onClick={onAuth} className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800">
                 Sign In
               </Button>
             )}

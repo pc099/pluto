@@ -575,16 +575,82 @@ class ComplianceNativeMonitor:
     
     async def _assess_eu_ai_act_compliance(self, ai_system_data: Dict[str, Any]) -> Dict[str, Any]:
         """Assess EU AI Act compliance"""
-        # Implementation for EU AI Act assessment
+        findings = []
+        violations = []
+        recommendations = []
+        controls_assessed = []
+        evidence = []
+        score = 0.0
+        total_controls = 4
+
+        # EU_AI_ACT_1: Risk Classification
+        if ai_system_data.get("risk_classification"):
+            score += 1.0
+            findings.append("AI system risk classification is documented")
+            evidence.append({"control": "EU_AI_ACT_1", "status": "compliant", "evidence": f"Classified as {ai_system_data.get('risk_classification')}"})
+        else:
+            violations.append("Missing AI system risk classification")
+            recommendations.append("Classify AI system risk level according to EU AI Act Annexes")
+            evidence.append({"control": "EU_AI_ACT_1", "status": "non_compliant", "evidence": "No risk classification found"})
+        controls_assessed.append("EU_AI_ACT_1")
+
+        # EU_AI_ACT_2: Data Governance
+        if ai_system_data.get("data_governance"):
+            score += 1.0
+            findings.append("Data governance procedures are in place")
+            evidence.append({"control": "EU_AI_ACT_2", "status": "compliant", "evidence": "Data governance documented"})
+        else:
+            violations.append("Missing data governance procedures")
+            recommendations.append("Implement data governance for training, validation, and testing data")
+            evidence.append({"control": "EU_AI_ACT_2", "status": "non_compliant", "evidence": "No data governance found"})
+        controls_assessed.append("EU_AI_ACT_2")
+
+        # EU_AI_ACT_3: Technical Documentation
+        if ai_system_data.get("technical_documentation"):
+            score += 1.0
+            findings.append("Technical documentation is available")
+            evidence.append({"control": "EU_AI_ACT_3", "status": "compliant", "evidence": "Technical documentation present"})
+        else:
+            violations.append("Missing technical documentation")
+            recommendations.append("Create comprehensive technical documentation before placing on market")
+            evidence.append({"control": "EU_AI_ACT_3", "status": "non_compliant", "evidence": "No technical documentation found"})
+        controls_assessed.append("EU_AI_ACT_3")
+
+        # EU_AI_ACT_4: Human Oversight
+        if ai_system_data.get("human_oversight"):
+            score += 1.0
+            findings.append("Human oversight measures are implemented")
+            evidence.append({"control": "EU_AI_ACT_4", "status": "compliant", "evidence": "Human oversight measures documented"})
+        else:
+            violations.append("Missing human oversight measures")
+            recommendations.append("Implement human oversight measures appropriate for the AI system")
+            evidence.append({"control": "EU_AI_ACT_4", "status": "non_compliant", "evidence": "No human oversight found"})
+        controls_assessed.append("EU_AI_ACT_4")
+
+        overall_score = score / total_controls
+
+        if overall_score >= 0.9:
+            risk_level = RiskLevel.LOW
+            status = "compliant"
+        elif overall_score >= 0.7:
+            risk_level = RiskLevel.MEDIUM
+            status = "mostly_compliant"
+        elif overall_score >= 0.5:
+            risk_level = RiskLevel.HIGH
+            status = "partially_compliant"
+        else:
+            risk_level = RiskLevel.CRITICAL
+            status = "non_compliant"
+
         return {
-            "compliance_score": 0.8,
-            "risk_level": "medium",
-            "status": "mostly_compliant",
-            "findings": ["EU AI Act assessment implemented"],
-            "recommendations": ["Complete EU AI Act implementation"],
-            "controls_assessed": ["EU_AI_ACT_1"],
-            "violations": [],
-            "evidence": []
+            "compliance_score": round(overall_score, 3),
+            "risk_level": risk_level.value,
+            "status": status,
+            "findings": findings,
+            "recommendations": recommendations,
+            "controls_assessed": controls_assessed,
+            "violations": violations,
+            "evidence": evidence
         }
     
     async def _assess_hipaa_compliance(self, ai_system_data: Dict[str, Any]) -> Dict[str, Any]:
@@ -631,16 +697,82 @@ class ComplianceNativeMonitor:
     
     async def _assess_gdpr_compliance(self, ai_system_data: Dict[str, Any]) -> Dict[str, Any]:
         """Assess GDPR compliance"""
-        # Implementation for GDPR assessment
+        findings = []
+        violations = []
+        recommendations = []
+        controls_assessed = []
+        evidence = []
+        score = 0.0
+        total_controls = 4
+
+        # GDPR_1: Lawful Basis
+        if ai_system_data.get("lawful_basis"):
+            score += 1.0
+            findings.append("Lawful basis for processing is defined")
+            evidence.append({"control": "GDPR_1", "status": "compliant", "evidence": f"Lawful basis: {ai_system_data.get('lawful_basis')}"})
+        else:
+            violations.append("Missing lawful basis for processing")
+            recommendations.append("Define and document lawful basis for data processing (e.g., consent, contract)")
+            evidence.append({"control": "GDPR_1", "status": "non_compliant", "evidence": "No lawful basis found"})
+        controls_assessed.append("GDPR_1")
+
+        # GDPR_2: Data Minimization
+        if ai_system_data.get("data_minimization"):
+            score += 1.0
+            findings.append("Data minimization principles applied")
+            evidence.append({"control": "GDPR_2", "status": "compliant", "evidence": "Data minimization documented"})
+        else:
+            violations.append("Missing data minimization measures")
+            recommendations.append("Ensure only necessary personal data is processed")
+            evidence.append({"control": "GDPR_2", "status": "non_compliant", "evidence": "No data minimization found"})
+        controls_assessed.append("GDPR_2")
+
+        # GDPR_3: Privacy Notice
+        if ai_system_data.get("privacy_notice"):
+            score += 1.0
+            findings.append("Privacy notice is available")
+            evidence.append({"control": "GDPR_3", "status": "compliant", "evidence": "Privacy notice link/text provided"})
+        else:
+            violations.append("Missing privacy notice")
+            recommendations.append("Provide clear and transparent privacy notice to data subjects")
+            evidence.append({"control": "GDPR_3", "status": "non_compliant", "evidence": "No privacy notice found"})
+        controls_assessed.append("GDPR_3")
+
+        # GDPR_4: Data Subject Rights
+        if ai_system_data.get("data_subject_rights"):
+            score += 1.0
+            findings.append("Procedures for data subject rights exist")
+            evidence.append({"control": "GDPR_4", "status": "compliant", "evidence": "Rights procedures documented"})
+        else:
+            violations.append("Missing procedures for data subject rights")
+            recommendations.append("Implement procedures to handle access, rectification, and erasure requests")
+            evidence.append({"control": "GDPR_4", "status": "non_compliant", "evidence": "No rights procedures found"})
+        controls_assessed.append("GDPR_4")
+
+        overall_score = score / total_controls
+
+        if overall_score >= 0.9:
+            risk_level = RiskLevel.LOW
+            status = "compliant"
+        elif overall_score >= 0.7:
+            risk_level = RiskLevel.MEDIUM
+            status = "mostly_compliant"
+        elif overall_score >= 0.5:
+            risk_level = RiskLevel.HIGH
+            status = "partially_compliant"
+        else:
+            risk_level = RiskLevel.CRITICAL
+            status = "non_compliant"
+
         return {
-            "compliance_score": 0.9,
-            "risk_level": "low",
-            "status": "compliant",
-            "findings": ["GDPR assessment implemented"],
-            "recommendations": ["Complete GDPR implementation"],
-            "controls_assessed": ["GDPR_1"],
-            "violations": [],
-            "evidence": []
+            "compliance_score": round(overall_score, 3),
+            "risk_level": risk_level.value,
+            "status": status,
+            "findings": findings,
+            "recommendations": recommendations,
+            "controls_assessed": controls_assessed,
+            "violations": violations,
+            "evidence": evidence
         }
     
     async def _assess_sox_compliance(self, ai_system_data: Dict[str, Any]) -> Dict[str, Any]:

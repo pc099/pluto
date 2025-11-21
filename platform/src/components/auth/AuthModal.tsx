@@ -108,9 +108,9 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess }: AuthModalP
       <Card className="w-full max-w-md bg-white/95 backdrop-blur-sm border-0 shadow-2xl">
         <CardHeader className="text-center pb-6">
           <div className="flex justify-center mb-4">
-            <PlutoLogo size={60} />
+            <PlutoLogo size={60} showText={false} />
           </div>
-          <CardTitle className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+          <CardTitle className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
             Welcome to Pluto
           </CardTitle>
           <p className="text-gray-600 text-sm">
@@ -174,7 +174,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess }: AuthModalP
                 
                 <Button 
                   type="submit" 
-                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                  className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
                   disabled={loading}
                 >
                   {loading ? (
@@ -267,7 +267,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess }: AuthModalP
                 
                 <Button 
                   type="submit" 
-                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                  className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
                   disabled={loading}
                 >
                   {loading ? (

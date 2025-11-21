@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { authService, User } from '@/lib/auth'
 import LoginForm from './LoginForm'
+import LoadingScreen from '@/components/LoadingScreen'
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -48,9 +49,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
-      </div>
+      <LoadingScreen />
     )
   }
 

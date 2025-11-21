@@ -187,10 +187,10 @@ export default function RetentionPolicyManager() {
 
   const getDataTypeColor = (type: string) => {
     const colors: Record<string, string> = {
-      request_logs: 'bg-blue-100 text-blue-800',
-      user_data: 'bg-purple-100 text-purple-800',
-      analytics: 'bg-green-100 text-green-800',
-      audit_logs: 'bg-orange-100 text-orange-800',
+      request_logs: 'bg-blue-50 text-blue-800',
+      user_data: 'bg-blue-100 text-blue-800',
+      analytics: 'bg-blue-50 text-blue-700',
+      audit_logs: 'bg-blue-100 text-blue-900',
       pii_data: 'bg-red-100 text-red-800'
     }
     return colors[type] || 'bg-gray-100 text-gray-800'
@@ -277,7 +277,7 @@ export default function RetentionPolicyManager() {
                         <Badge className="bg-blue-100 text-blue-800">Archive</Badge>
                       )}
                       {policy.legal_hold_override && (
-                        <Badge className="bg-orange-100 text-orange-800">Legal Hold</Badge>
+                        <Badge className="bg-blue-100 text-blue-800">Legal Hold</Badge>
                       )}
                     </div>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
@@ -333,7 +333,7 @@ export default function RetentionPolicyManager() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center">
-            <Calendar className="h-5 w-5 mr-2 text-purple-600" />
+            <Calendar className="h-5 w-5 mr-2 text-blue-600" />
             Upcoming Scheduled Deletions
           </CardTitle>
         </CardHeader>

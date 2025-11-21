@@ -128,7 +128,7 @@ export default function ComplianceViolationsPanel() {
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case 'gdpr': return 'bg-purple-100 text-purple-800'
+      case 'gdpr': return 'bg-blue-100 text-blue-800'
       case 'hipaa': return 'bg-blue-100 text-blue-800'
       case 'pci_dss': return 'bg-green-100 text-green-800'
       case 'ccpa': return 'bg-yellow-100 text-yellow-800'
@@ -326,7 +326,7 @@ export default function ComplianceViolationsPanel() {
                       False Positive
                     </Button>
                     {!violation.auto_remediated && (
-                      <Button size="sm" className="bg-purple-600 hover:bg-purple-700">
+                      <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
                         Auto-Remediate
                       </Button>
                     )}

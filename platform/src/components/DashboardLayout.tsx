@@ -88,10 +88,10 @@ export default function DashboardLayout({ children, activeTab, onTabChange }: Da
         <div className="p-4 border-b border-gray-200">
           {sidebarCollapsed ? (
             <div className="flex justify-center">
-              <PlutoLogo size={32} showText={false} />
+              <PlutoLogo size={32} showText={false} iconOnly />
             </div>
           ) : (
-            <PlutoLogo size={40} />
+            <PlutoLogo size={40} showText={false} />
           )}
         </div>
 

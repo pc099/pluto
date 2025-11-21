@@ -114,15 +114,35 @@ export default function MissionControlDashboard() {
 
   if (error) {
     return (
-      <Alert variant="destructive">
-        <AlertCircle className="h-4 w-4" />
-        <AlertTitle>Error</AlertTitle>
-        <AlertDescription>{error}</AlertDescription>
-        <Button onClick={fetchDashboardData} className="mt-2" size="sm">
+      <div className="p-6">
+        <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Connection Error</AlertTitle>
+          <AlertDescription className="mt-2">
+            {error}
+            <div className="mt-4">
+              <Button onClick={fetchDashboardData} size="sm" variant="outline" className="bg-white/10 hover:bg-white/20">
+                <RefreshCw className="h-4 w-4 mr-2" />
+                Retry Connection
+              </Button>
+            </div>
+          </AlertDescription>
+        </Alert>
+      </div>
+    )
+  }
+
+  if (!dashboardData && !loading) {
+    return (
+      <div className="flex flex-col items-center justify-center h-64 text-gray-500">
+        <Server className="h-12 w-12 mb-4 opacity-50" />
+        <h3 className="text-lg font-medium">No Data Available</h3>
+        <p className="text-sm mb-4">Unable to retrieve mission control data.</p>
+        <Button onClick={fetchDashboardData} variant="outline">
           <RefreshCw className="h-4 w-4 mr-2" />
-          Retry
+          Refresh
         </Button>
-      </Alert>
+      </div>
     )
   }
 

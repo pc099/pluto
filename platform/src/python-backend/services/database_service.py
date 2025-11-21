@@ -12,14 +12,12 @@ class DatabaseService:
         key = os.getenv("SUPABASE_SERVICE_KEY")
         
         if not url or not key:
-            print("Warning: SUPABASE_URL and SUPABASE_SERVICE_KEY not set. Using mock database.")
-            self.supabase = None
-        else:
-            try:
-                self.supabase: Client = create_client(url, key)
-            except Exception as e:
-                print(f"Warning: Failed to connect to Supabase: {e}. Using mock database.")
-                self.supabase = None
+            raise ValueError("SUPABASE_URL and SUPABASE_SERVICE_KEY must be set in environment variables.")
+        
+        try:
+            self.supabase: Client = create_client(url, key)
+        except Exception as e:
+            raise ConnectionError(f"Failed to connect to Supabase: {e}")
     
     def create_agent(self, name: str, lambda_function_name: str, user_id: str = None) -> Dict[str, Any]:
         """Create a new agent record in database"""
@@ -545,19 +543,6 @@ class DatabaseService:
 
     def get_agents(self, user_id: Optional[str] = None) -> List[Dict[str, Any]]:
         """Get all agents, optionally filtered by user_id"""
-        if not self.supabase:
-            # Return mock data when Supabase is not available
-            return [
-                {
-                    "id": "mock-agent-1",
-                    "name": "Mock Agent 1",
-                    "status": "running",
-                    "lambda_function_name": "mock-function-1",
-                    "created_at": datetime.utcnow().isoformat(),
-                    "user_id": user_id or "demo-user"
-                }
-            ]
-        
         try:
             query = self.supabase.table('agents').select('*').order('created_at', desc=True)
             if user_id:
@@ -579,26 +564,11 @@ class DatabaseService:
 
     def get_agent_requests(self, agent_id: str) -> List[Dict[str, Any]]:
         """Get requests for a specific agent"""
-        if not self.supabase:
-            # Return mock data when Supabase is not available
-            return [
-                {
-                    "id": "mock-request-1",
-                    "agent_id": agent_id,
-                    "success": True,
-                    "duration": 1.2,
-                    "timestamp": datetime.utcnow().isoformat(),
-                    "input_tokens": 100,
-                    "output_tokens": 50,
-                    "cost": 0.001
-                }
-            ]
-        
         try:
             response = self.supabase.table('ai_request_logs').select('*').eq('agent_id', agent_id).order('created_at', desc=True).execute()
             return response.data if response.data else []
         except Exception as e:
-            print(f"Error getting agent requests: {str(e)}")
+            print(f"Error getting agent_requests: {str(e)}")
             return []
 
 # Create singleton instance

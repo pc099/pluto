@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import AppLayout from '@/components/AppLayout'
+import LoadingScreen from '@/components/LoadingScreen'
 import { authService, User } from '@/lib/auth'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -65,11 +66,7 @@ export default function AgentRoutingPage() {
   }
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
-      </div>
-    )
+    return <LoadingScreen />
   }
 
   const routingStrategies = [
@@ -78,7 +75,7 @@ export default function AgentRoutingPage() {
       name: 'Balanced',
       description: 'Optimal balance of cost, performance, and quality',
       icon: Gauge,
-      color: 'purple',
+      color: 'blue',
       metrics: { cost: 75, performance: 80, quality: 85 }
     },
     {
@@ -94,7 +91,7 @@ export default function AgentRoutingPage() {
       name: 'Cost Optimized',
       description: 'Minimize costs while maintaining quality',
       icon: DollarSign,
-      color: 'green',
+      color: 'blue',
       metrics: { cost: 95, performance: 70, quality: 75 }
     },
     {
@@ -102,7 +99,7 @@ export default function AgentRoutingPage() {
       name: 'Quality First',
       description: 'Best output quality regardless of cost',
       icon: Target,
-      color: 'orange',
+      color: 'blue',
       metrics: { cost: 50, performance: 75, quality: 98 }
     },
     {
@@ -262,7 +259,7 @@ export default function AgentRoutingPage() {
               <h1 className="text-4xl font-bold text-gray-900 mb-2">Smart Routing</h1>
               <p className="text-xl text-gray-600">Multi-agent orchestration with intelligent task routing</p>
             </div>
-            <Badge className="bg-gradient-to-r from-purple-600 to-blue-600 text-white text-sm px-4 py-2">
+            <Badge className="bg-gradient-to-r from-blue-600 to-blue-700 text-white text-sm px-4 py-2">
               <Activity className="h-4 w-4 mr-2" />
               Active Routing
             </Badge>
@@ -271,15 +268,15 @@ export default function AgentRoutingPage() {
 
         {/* Key Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card className="border-2 border-purple-200">
+          <Card className="border-2 border-blue-200">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600 mb-1">Total Requests</p>
-                  <p className="text-3xl font-bold text-purple-600">13,727</p>
+                  <p className="text-3xl font-bold text-blue-600">13,727</p>
                   <p className="text-xs text-green-600 mt-1">↑ 23% this week</p>
                 </div>
-                <Activity className="h-10 w-10 text-purple-500" />
+                <Activity className="h-10 w-10 text-blue-500" />
               </div>
             </CardContent>
           </Card>
@@ -310,15 +307,15 @@ export default function AgentRoutingPage() {
             </CardContent>
           </Card>
 
-          <Card className="border-2 border-orange-200">
+          <Card className="border-2 border-blue-200">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600 mb-1">Active Agents</p>
-                  <p className="text-3xl font-bold text-orange-600">4</p>
+                  <p className="text-3xl font-bold text-blue-600">4</p>
                   <p className="text-xs text-gray-600 mt-1">All operational</p>
                 </div>
-                <Bot className="h-10 w-10 text-orange-500" />
+                <Bot className="h-10 w-10 text-blue-500" />
               </div>
             </CardContent>
           </Card>
@@ -326,10 +323,10 @@ export default function AgentRoutingPage() {
 
         {/* Routing Strategies - Per Agent */}
         {selectedAgent && (
-          <Card className="mb-8 border-2 border-purple-200">
+          <Card className="mb-8 border-2 border-blue-200">
             <CardHeader>
               <CardTitle className="flex items-center text-2xl">
-                <GitBranch className="h-6 w-6 mr-2 text-purple-600" />
+                <GitBranch className="h-6 w-6 mr-2 text-blue-600" />
                 Routing Strategy for {availableAgents.find(a => a.id === selectedAgent)?.name}
               </CardTitle>
               <CardDescription>
@@ -391,11 +388,11 @@ export default function AgentRoutingPage() {
               })}
             </div>
             
-            <div className="mt-6 flex items-center justify-between p-4 bg-purple-50 rounded-lg border border-purple-200">
+            <div className="mt-6 flex items-center justify-between p-4 bg-blue-50 rounded-lg border border-blue-200">
               <div className="flex items-center">
-                <CheckCircle className="h-5 w-5 text-purple-600 mr-2" />
+                <CheckCircle className="h-5 w-5 text-blue-600 mr-2" />
                 <span className="text-sm font-medium text-gray-900">
-                  Selected Strategy: <span className="text-purple-600">{routingStrategies.find(s => s.id === selectedStrategy)?.name}</span>
+                  Selected Strategy: <span className="text-blue-600">{routingStrategies.find(s => s.id === selectedStrategy)?.name}</span>
                 </span>
               </div>
             </div>
@@ -404,10 +401,10 @@ export default function AgentRoutingPage() {
         )}
 
         {/* Agent Selection */}
-        <Card className="border-2 border-purple-200">
+        <Card className="border-2 border-blue-200">
           <CardHeader>
             <CardTitle className="flex items-center text-2xl">
-              <Bot className="h-6 w-6 mr-2 text-purple-600" />
+              <Bot className="h-6 w-6 mr-2 text-blue-600" />
               Select Agent to Configure
             </CardTitle>
             <CardDescription>
@@ -422,14 +419,14 @@ export default function AgentRoutingPage() {
                   onClick={() => setSelectedAgent(agent.id)}
                   className={`p-4 text-left rounded-lg border-2 transition-all ${
                     selectedAgent === agent.id
-                      ? 'border-purple-500 bg-purple-50 shadow-md'
-                      : 'border-gray-200 hover:border-purple-300 hover:bg-gray-50'
+                      ? 'border-blue-500 bg-blue-50 shadow-md'
+                      : 'border-gray-200 hover:border-blue-300 hover:bg-gray-50'
                   }`}
                 >
                   <div className="flex items-center justify-between mb-2">
                     <h4 className="font-semibold text-gray-900">{agent.name}</h4>
                     {selectedAgent === agent.id && (
-                      <CheckCircle className="h-5 w-5 text-purple-600" />
+                      <CheckCircle className="h-5 w-5 text-blue-600" />
                     )}
                   </div>
                   <p className="text-sm text-gray-600 mb-2">{agent.specialty}</p>
@@ -467,9 +464,9 @@ export default function AgentRoutingPage() {
               const selectedModelId = selectedModels[priority]
               const selectedModel = availableModels.find(m => m.id === selectedModelId)
               const priorityColors = {
-                primary: { bg: 'bg-blue-50', border: 'border-blue-300', text: 'text-blue-700', badge: 'bg-blue-600' },
-                secondary: { bg: 'bg-purple-50', border: 'border-purple-300', text: 'text-purple-700', badge: 'bg-purple-600' },
-                tertiary: { bg: 'bg-orange-50', border: 'border-orange-300', text: 'text-orange-700', badge: 'bg-orange-600' }
+                primary: { bg: 'bg-blue-50', border: 'border-blue-400', text: 'text-blue-800', badge: 'bg-blue-700' },
+                secondary: { bg: 'bg-blue-50', border: 'border-blue-300', text: 'text-blue-700', badge: 'bg-blue-600' },
+                tertiary: { bg: 'bg-blue-50', border: 'border-blue-200', text: 'text-blue-600', badge: 'bg-blue-500' }
               }
               const colors = priorityColors[priority]
 
@@ -561,7 +558,7 @@ export default function AgentRoutingPage() {
             })}
 
             {/* Apply Button */}
-            <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border-2 border-blue-300">
+            <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border-2 border-blue-300">
               <div className="flex items-center space-x-3">
                 <CheckCircle className="h-5 w-5 text-blue-600" />
                 <div>
@@ -591,18 +588,18 @@ export default function AgentRoutingPage() {
         )}
 
         {/* How It Works */}
-        <Card className="mt-8 bg-gradient-to-br from-purple-50 to-blue-50 border-2 border-purple-200">
+        <Card className="mt-8 bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200">
           <CardHeader>
             <CardTitle className="flex items-center text-2xl">
-              <TrendingUp className="h-6 w-6 mr-2 text-purple-600" />
+              <TrendingUp className="h-6 w-6 mr-2 text-blue-600" />
               How Smart Routing Works
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-white p-4 rounded-lg border border-purple-200">
-                <div className="h-12 w-12 bg-purple-100 rounded-lg flex items-center justify-center mb-3">
-                  <span className="text-2xl font-bold text-purple-600">1</span>
+              <div className="bg-white p-4 rounded-lg border border-blue-200">
+                <div className="h-12 w-12 bg-blue-100 rounded-lg flex items-center justify-center mb-3">
+                  <span className="text-2xl font-bold text-blue-600">1</span>
                 </div>
                 <h4 className="font-semibold text-gray-900 mb-2">Task Analysis</h4>
                 <p className="text-sm text-gray-600">

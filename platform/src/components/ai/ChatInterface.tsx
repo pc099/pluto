@@ -127,7 +127,7 @@ export default function ChatInterface() {
   return (
     <div className="flex flex-col h-full max-w-4xl mx-auto">
       {/* Model Selection and Controls */}
-      <Card className="mb-4 border-purple-200 bg-gradient-to-r from-purple-50 to-blue-50">
+      <Card className="mb-4 border-blue-200 bg-gradient-to-r from-blue-50 to-blue-100">
         <CardContent className="pt-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -172,8 +172,8 @@ export default function ChatInterface() {
             <div className="flex items-center justify-center h-full text-gray-500">
               <div className="text-center">
                 <div className="mb-4">
-                  <div className="w-16 h-16 mx-auto bg-gradient-to-r from-purple-100 to-blue-100 rounded-full flex items-center justify-center">
-                    <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-16 h-16 mx-auto bg-gradient-to-r from-blue-100 to-blue-200 rounded-full flex items-center justify-center">
+                    <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                     </svg>
                   </div>
@@ -192,7 +192,7 @@ export default function ChatInterface() {
                   <div
                     className={`max-w-xs lg:max-w-2xl px-4 py-3 rounded-2xl shadow-sm ${
                       message.role === 'user'
-                        ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white'
+                        ? 'bg-gradient-to-r from-blue-600 to-blue-800 text-white'
                         : 'bg-white border border-gray-200 text-gray-900'
                     }`}
                   >
@@ -254,7 +254,7 @@ export default function ChatInterface() {
             <Button 
               onClick={sendMessage} 
               disabled={isLoading || !inputMessage.trim()}
-              className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 px-6"
+              className="bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 px-6"
             >
               {isLoading ? (
                 <div className="flex items-center gap-2">

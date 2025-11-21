@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import AppLayout from '@/components/AppLayout'
+import LoadingScreen from '@/components/LoadingScreen'
 import { authService, User } from '@/lib/auth'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -50,11 +51,7 @@ export default function BillingPage() {
   }
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
-      </div>
-    )
+    return <LoadingScreen />
   }
 
   return (
@@ -69,12 +66,12 @@ export default function BillingPage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 flex items-center">
-                <CreditCard className="h-8 w-8 mr-3 text-purple-600" />
+                <CreditCard className="h-8 w-8 mr-3 text-blue-600" />
                 Billing & Usage
               </h1>
               <p className="text-gray-600 mt-1">Manage your subscription and view usage</p>
             </div>
-            <Button className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
+            <Button className="bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900">
               <Zap className="h-4 w-4 mr-2" />
               Upgrade Plan
             </Button>
@@ -85,14 +82,14 @@ export default function BillingPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Current Plan */}
         <div className="mb-8">
-          <Card className="border-purple-200 bg-gradient-to-br from-purple-50 to-blue-50">
+          <Card className="border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100">
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div>
                   <CardTitle className="text-2xl">Professional Plan</CardTitle>
                   <p className="text-gray-600 mt-1">Unlimited AI requests with advanced features</p>
                 </div>
-                <Badge className="bg-purple-600 text-white px-4 py-2 text-lg">Active</Badge>
+                <Badge className="bg-blue-600 text-white px-4 py-2 text-lg">Active</Badge>
               </div>
             </CardHeader>
             <CardContent>
@@ -246,7 +243,7 @@ export default function BillingPage() {
             </Card>
 
             {/* Professional Plan */}
-            <Card className="border-purple-500 border-2 relative">
+            <Card className="border-blue-500 border-2 relative">
               <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                 <Badge className="bg-purple-600">Current Plan</Badge>
               </div>
@@ -276,7 +273,7 @@ export default function BillingPage() {
                     Custom policies
                   </li>
                 </ul>
-                <Button className="w-full mt-6 bg-purple-600 hover:bg-purple-700">Current Plan</Button>
+                <Button className="w-full mt-6 bg-blue-600 hover:bg-blue-700">Current Plan</Button>
               </CardContent>
             </Card>
 
